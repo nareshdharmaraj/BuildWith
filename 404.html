@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found - BuildWith</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .error-wrapper {
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .error-container {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .error-msg {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+        }
+
+        @media (max-width: 600px) {
+            .error-code {
+                font-size: 5rem;
+            }
+            .error-msg {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar glass">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-hard-hat" style="font-size: 1.8rem; color: var(--primary-color);"></i>
+                    <h2
+                        style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; margin: 0;">
+                        BuildWith</h2>
+                </a>
+            </div>
+
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <span class="nav-link">Home <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i></span>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html" class="dropdown-item">Corporate Home</a></li>
+                        <li><a href="index2.html" class="dropdown-item">Creative Home</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
+                <li class="nav-item">
+                    <span class="nav-link">Dashboard <i class="fas fa-chevron-down"
+                            style="font-size: 0.8rem;"></i></span>
+                    <ul class="dropdown-menu">
+                        <li><a href="user-dashboard.html" class="dropdown-item">User Dashboard</a></li>
+                        <li><a href="admin-dashboard.html" class="dropdown-item">Admin Dashboard</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="faq.html" class="nav-link">FAQ</a></li>
+            </ul>
+
+            <div class="nav-controls">
+                <button id="rtl-toggle" class="icon-btn" title="Toggle RTL"><i class="fas fa-globe"></i></button>
+                <button id="theme-toggle" class="icon-btn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+                <a href="login.html" class="cta-btn" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="error-wrapper">
+        <div class="error-container">
+            <h1 class="error-code">404</h1>
+            <p class="error-msg">Oops! This page is under construction (literally).</p>
+            <img src="https://placehold.co/400x300?text=Construction+Worker" alt="404"
+                style="margin-bottom: 2rem; border-radius: 10px; max-width: 100%;">
+            <a href="index.html" class="cta-btn">Go Back Home</a>
+        </div>
+    </div>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/rtl-toggle.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildWith - Creative Studio</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Exo 2', sans-serif;
+        }
+
+        .creative-hero {
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&q=80&w=2000') no-repeat center center/cover;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 10%;
+            position: relative;
+        }
+
+        .creative-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%);
+        }
+
+        .creative-content {
+            z-index: 1;
+            color: white;
+            max-width: 600px;
+        }
+
+        .creative-content h1 {
+            font-size: 5rem;
+            line-height: 1;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .masonry-grid {
+            column-count: 2;
+            column-gap: 2rem;
+            padding: 5rem 0;
+        }
+
+        @media(max-width: 768px) {
+            .masonry-grid {
+                column-count: 1;
+            }
+
+            .creative-content h1 {
+                font-size: 3rem;
+            }
+        }
+
+        .project-item {
+            break-inside: avoid;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .project-item img {
+            width: 100%;
+            display: block;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .project-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .project-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.5), transparent);
+            padding: 2rem;
+            color: white;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-start;
+            /* Left align text */
+        }
+
+        .project-item:hover .project-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-status {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            color: var(--primary-color);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 0.2rem;
+        }
+
+        .project-desc {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            max-width: 90%;
+        }
+
+        .read-more-btn {
+            padding: 0.6rem 1.4rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .read-more-btn:hover {
+            background: transparent;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Mobile Optimization: Always show overlay */
+        @media (max-width: 768px) {
+            .project-overlay {
+                opacity: 1;
+                transform: translateY(0);
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 100%);
+                padding: 1.5rem;
+            }
+
+            .project-item {
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        /* Creative Content Expansion */
+        .creative-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .expertise-item h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .expertise-item p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Stats Overlay */
+        .impact-stats {
+            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=2000') fixed center/cover;
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        /* Testimonial Slider (Grid for now) */
+        .testimonial-card-minimal {
+            padding: 2rem;
+            border-left: 3px solid var(--primary-color);
+            background: var(--card-bg);
+            border-radius: 0 12px 12px 0;
+        }
+
+        /* Journal Grid */
+        .journal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .journal-item {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .journal-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .journal-img {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(100%);
+            transition: filter 0.3s;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .journal-item:hover .journal-img {
+            filter: grayscale(0%);
+        }
+
+        @media(max-width: 768px) {
+            .creative-title {
+                font-size: 2rem;
+            }
+
+            .stat-number {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar glass">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-hard-hat" style="font-size: 1.8rem; color: var(--primary-color);"></i>
+                    <h2
+                        style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; margin: 0;">
+                        BuildWith</h2>
+                </a>
+            </div>
+
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <span class="nav-link">Home <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i></span>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html" class="dropdown-item">Corporate Home</a></li>
+                        <li><a href="index2.html" class="dropdown-item">Creative Home</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
+                <li class="nav-item">
+                    <span class="nav-link">Dashboard <i class="fas fa-chevron-down"
+                            style="font-size: 0.8rem;"></i></span>
+                    <ul class="dropdown-menu">
+                        <li><a href="user-dashboard.html" class="dropdown-item">User Dashboard</a></li>
+                        <li><a href="admin-dashboard.html" class="dropdown-item">Admin Dashboard</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="faq.html" class="nav-link">FAQ</a></li>
+            </ul>
+
+            <div class="nav-controls">
+                <button id="rtl-toggle" class="icon-btn" title="Toggle RTL"><i class="fas fa-globe"></i></button>
+                <button id="theme-toggle" class="icon-btn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+                <a href="login.html" class="cta-btn" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Creative Hero -->
+    <header class="creative-hero">
+        <div class="creative-content">
+            <h1 data-aos="fade-up">Design.<br>Create.<br>Inspire.</h1>
+            <p style="font-size: 1.5rem; margin-bottom: 2rem;">Pushing the boundaries of modern architecture.</p>
+        </div>
+    </header>
+
+    <!-- Asymmetrical/Masonry Project Showcase -->
+    <section class="container">
+        <div class="masonry-grid" id="creative-projects">
+            <div class="project-item">
+                <img src="https://images.unsplash.com/photo-1479839672679-a455b1809a2c?auto=format&fit=crop&q=80&w=800"
+                    alt="The Spire">
+                <div class="project-overlay">
+                    <span class="project-status">Completed</span>
+                    <h3>The Spire</h3>
+                    <p class="project-desc">A 80-story residential marvel in the heart of Manhattan.</p>
+                    <a href="projects.html" class="read-more-btn">Read More</a>
+                </div>
+            </div>
+            <div class="project-item">
+                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=800"
+                    alt="Riverline">
+                <div class="project-overlay">
+                    <span class="project-status">In Progress</span>
+                    <h3>Riverline</h3>
+                    <p class="project-desc">Sustainable riverfront development revitalizing Chicago's downtown.</p>
+                    <a href="projects.html" class="read-more-btn">Read More</a>
+                </div>
+            </div>
+            <div class="project-item">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800"
+                    alt="Glass House">
+                <div class="project-overlay">
+                    <span class="project-status">Award Winning</span>
+                    <h3>Glass House</h3>
+                    <p class="project-desc">Modern minimalist villa maximizing natural light and views.</p>
+                    <a href="projects.html" class="read-more-btn">Read More</a>
+                </div>
+            </div>
+            <div class="project-item">
+                <img src="https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&q=80&w=800"
+                    alt="City Hub">
+                <div class="project-overlay">
+                    <span class="project-status">Completed</span>
+                    <h3>City Hub</h3>
+                    <p class="project-desc">Mixed-use commercial complex connecting Tokyo's business district.</p>
+                    <a href="projects.html" class="read-more-btn">Read More</a>
+                </div>
+            </div>
+            <div class="project-item">
+                <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=800"
+                    alt="Eco Center">
+                <div class="project-overlay">
+                    <span class="project-status">Planning</span>
+                    <h3>Eco Center</h3>
+                    <p class="project-desc">Carbon-neutral community center featuring vertical gardens.</p>
+                    <a href="projects.html" class="read-more-btn">Read More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise Section -->
+    <section class="container" style="padding: 5rem 0;">
+        <h2 class="creative-title">Our Expertise</h2>
+        <div class="expertise-grid">
+            <div class="expertise-item glass" style="padding: 2rem;">
+                <h3>Urban Planning</h3>
+                <p>Designing cities for the future.</p>
+            </div>
+            <div class="expertise-item glass" style="padding: 2rem;">
+                <h3>Interior Design</h3>
+                <p>Curating spaces that breathe.</p>
+            </div>
+            <div class="expertise-item glass" style="padding: 2rem;">
+                <h3>Restoration</h3>
+                <p>Preserving history with care.</p>
+            </div>
+            <div class="expertise-item glass" style="padding: 2rem;">
+                <h3>Green Build</h3>
+                <p>Eco-conscious construction.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Stats -->
+    <section class="impact-stats">
+        <div class="container" style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 2rem;">
+            <div>
+                <div class="stat-number">150+</div>
+                <p>Projects</p>
+            </div>
+            <div>
+                <div class="stat-number">45</div>
+                <p>Awards</p>
+            </div>
+            <div>
+                <div class="stat-number">25</div>
+                <p>Years</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Stories -->
+    <section class="container" style="padding: 5rem 0;">
+        <h2 class="creative-title">Client Stories</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <div class="testimonial-card-minimal">
+                <p style="font-style: italic; margin-bottom: 1rem;">"BuildWith didn't just build a house, they built a
+                    piece of art. The geometry and light play is phenomenal."</p>
+                <strong>— Sarah Jenkins</strong>
+            </div>
+            <div class="testimonial-card-minimal">
+                <p style="font-style: italic; margin-bottom: 1rem;">"A visionary team that understands the intersection
+                    of functionality and aesthetics."</p>
+                <strong>— Marcus Cole</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design Journal (News) -->
+    <section class="container" style="padding-bottom: 5rem;">
+        <h2 class="creative-title">Design Journal</h2>
+        <div class="journal-grid">
+            <div class="journal-item">
+                <div class="journal-img"
+                    style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=500');">
+                </div>
+                <span style="font-size: 0.8rem; color: var(--primary-color);">Dec 10, 2024</span>
+                <h3>Minimalism in 2025</h3>
+            </div>
+            <div class="journal-item">
+                <div class="journal-img"
+                    style="background-image: url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&q=80&w=500');">
+                </div>
+                <span style="font-size: 0.8rem; color: var(--primary-color);">Nov 25, 2024</span>
+                <h3>The Return of Brutalism</h3>
+            </div>
+            <div class="journal-item">
+                <div class="journal-img"
+                    style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=500');">
+                </div>
+                <span style="font-size: 0.8rem; color: var(--primary-color);">Oct 15, 2024</span>
+                <h3>AI & Generative Design</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                    <i class="fas fa-hard-hat" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                    <h3 style="font-size: 1.5rem; margin: 0;">BuildWith</h3>
+                </div>
+                <p>Constructing excellence since 1999. We build your dreams with the highest standards of safety and
+                    quality.</p>
+                <p style="margin-top: 0.8rem; opacity: 0.8;"><i class="fas fa-phone"
+                        style="margin-right: 0.5rem;"></i>+91 7200 7545 66</p>
+                <div style="margin-top: 1.5rem;">
+                    <a href="#" class="icon-btn"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="icon-btn"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="icon-btn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="icon-btn"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 1.2rem;">Quick Links</h4>
+                <ul style="opacity: 0.8;">
+                    <li style="margin-bottom: 0.5rem;"><a href="index.html">Home</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="projects.html">Projects</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="about.html">About</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 1.2rem;">Legal</h4>
+                <ul style="opacity: 0.8;">
+                    <li style="margin-bottom: 0.5rem;"><a href="privacy_terms.html">Privacy Policy</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="privacy_terms.html">Terms of Service</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 1.2rem;">Newsletter</h4>
+                <p style="margin-bottom: 1rem; font-size: 0.9rem;">Subscribe to get the latest industry news.</p>
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="email" placeholder="Your email"
+                        style="padding: 0.8rem; border: var(--glass-border); background: rgba(255,255,255,0.5); border-radius: 8px; width: 100%; outline: none;">
+                    <button
+                        style="padding: 0.8rem 1.2rem; background: var(--primary-color); color: white; border: none; border-radius: 8px; cursor: pointer;"><i
+                            class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        <div
+            style="text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(0,0,0,0.05); color: var(--text-muted); font-size: 0.9rem;">
+            <p>&copy; 2025 BuildWith Construction Inc. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/rtl-toggle.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

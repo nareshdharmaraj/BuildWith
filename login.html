@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - BuildWith</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .login-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=1920') no-repeat center center/cover;
+            position: relative;
+            padding-top: 80px;
+            padding-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .login-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.85);
+            /* Dark overlay */
+            z-index: 0;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        /* Top Navigation for Login Page */
+        .login-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .login-nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .login-nav-controls {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .login-card {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 400px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+            padding: 2.5rem;
+            text-align: center;
+            margin: 0 1rem;
+        }
+
+        .login-card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .login-card::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .login-card::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .login-wrapper {
+                padding-top: 80px;
+                padding-bottom: 10px;
+            }
+
+            .login-card {
+                padding: 1.5rem 1.2rem;
+                max-width: 95%;
+                max-height: calc(100vh - 90px);
+            }
+
+            .login-card>div:first-child {
+                margin-bottom: 1.2rem !important;
+            }
+
+            .login-card h2 {
+                font-size: 1.6rem !important;
+            }
+
+            .input-group {
+                margin-bottom: 1rem;
+            }
+
+            .divider {
+                margin: 1rem 0;
+            }
+
+            .login-nav-controls {
+                gap: 0.5rem;
+            }
+
+            .login-nav-controls .cta-btn {
+                padding: 0.4rem 1rem !important;
+                font-size: 0.85rem !important;
+            }
+
+            .login-nav {
+                padding: 0.8rem 0;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .login-card {
+                padding: 1.5rem 2rem;
+            }
+
+            .login-card>div:first-child {
+                margin-bottom: 1rem !important;
+            }
+
+            .input-group {
+                margin-bottom: 1rem;
+            }
+
+            .divider {
+                margin: 1rem 0;
+            }
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+        }
+
+        .divider {
+            margin: 1.2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .divider span {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--background-dark);
+            /* Fallback if needed, but glass handles it */
+            background: #1e293b;
+            padding: 0 10px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .social-login {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .social-btn:hover {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="login-nav">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-hard-hat" style="font-size: 1.8rem; color: var(--primary-color);"></i>
+                    <h2
+                        style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; margin: 0;">
+                        BuildWith</h2>
+                </a>
+            </div>
+
+            <div class="login-nav-controls">
+                <button id="rtl-toggle" class="icon-btn" title="Toggle RTL"><i class="fas fa-globe"></i></button>
+                <button id="theme-toggle" class="icon-btn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+                <a href="index.html" class="cta-btn" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Wrapper -->
+    <div class="login-wrapper">
+        <!-- Particles Canvas (from script) -->
+
+        <div class="login-card glass animate-fade-up">
+            <!-- Login View -->
+            <div id="login-view">
+                <div style="margin-bottom: 2rem;">
+                    <div
+                        style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <i class="fas fa-hard-hat" style="font-size: 1.8rem; color: var(--primary-color);"></i>
+                        <h2
+                            style="font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin: 0;">
+                            BuildWith</h2>
+                    </div>
+                    <p style="color: var(--text-muted);">Access your project dashboard</p>
+                </div>
+
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="name@company.com" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="••••••••" required>
+                    </div>
+
+                    <div
+                        style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-size: 0.85rem;">
+                        <label style="display: flex; gap: 0.5rem; cursor: pointer; color: var(--text-muted);">
+                            <input type="checkbox"> Remember me
+                        </label>
+                        <a href="#" style="color: var(--primary-color);">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="cta-btn" style="width: 100%; border-radius: 8px;">Sign In</button>
+                </form>
+
+                <div class="divider"><span>OR CONTINUE WITH</span></div>
+
+                <div class="social-login">
+                    <button class="social-btn" style="border: 1px solid var(--text-muted);"><i
+                            class="fab fa-google"></i></button>
+                    <button class="social-btn" style="border: 1px solid var(--text-muted);"><i
+                            class="fab fa-linkedin-in"></i></button>
+                    <button class="social-btn" style="border: 1px solid var(--text-muted);"><i
+                            class="fab fa-github"></i></button>
+                </div>
+
+                <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-muted);">
+                    Don't have an account? <a href="#" onclick="toggleView('register')"
+                        style="color: var(--primary-color); font-weight: 600;">Register</a>
+                </p>
+            </div>
+
+            <!-- Register View -->
+            <div id="register-view" style="display: none;">
+                <h2 style="margin-bottom: 1.5rem;">Create Account</h2>
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-bar-bg"></div>
+                    <div class="progress-bar-fill" id="progressFill"></div>
+                    <div class="step-circle active" data-step="1">1</div>
+                    <div class="step-circle" data-step="2">2</div>
+                    <div class="step-circle" data-step="3">3</div>
+                </div>
+
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <!-- Step 1: Personal Info -->
+                    <div class="form-step active" id="step1">
+                        <div class="input-group">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="John Doe">
+                        </div>
+                        <div class="input-group">
+                            <label>Email Address</label>
+                            <input type="email" placeholder="name@company.com">
+                        </div>
+                        <button type="button" class="cta-btn" style="width: 100%; border-radius: 8px;"
+                            onclick="nextStep(2)">Next <i class="fas fa-arrow-right"></i></button>
+                    </div>
+
+                    <!-- Step 2: Security -->
+                    <div class="form-step" id="step2">
+                        <div class="input-group">
+                            <label>Password</label>
+                            <input type="password" placeholder="••••••••">
+                        </div>
+                        <div class="input-group">
+                            <label>Confirm Password</label>
+                            <input type="password" placeholder="••••••••">
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <button type="button" class="cta-btn"
+                                style="width: 100%; border-radius: 8px; background: transparent; border: 1px solid var(--primary-color);"
+                                onclick="prevStep(1)">Back</button>
+                            <button type="button" class="cta-btn" style="width: 100%; border-radius: 8px;"
+                                onclick="nextStep(3)">Next <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Profile -->
+                    <div class="form-step" id="step3">
+                        <div class="input-group">
+                            <label>Role</label>
+                            <select
+                                style="width: 100%; padding: 0.75rem 1rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: grey; outline: none;">
+                                <option>Select Role</option>
+                                <option>Homeowner</option>
+                                <option>Contractor</option>
+                                <option>Architect</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Phone (Optional)</label>
+                            <input type="tel" placeholder="+1 234 567 890">
+                        </div>
+                        <div style="display: flex; gap: 1rem;">
+                            <button type="button" class="cta-btn"
+                                style="width: 100%; border-radius: 8px; background: transparent; border: 1px solid var(--primary-color);"
+                                onclick="prevStep(2)">Back</button>
+                            <button type="submit" class="cta-btn" style="width: 100%; border-radius: 8px;">Create
+                                Account</button>
+                        </div>
+                    </div>
+                </form>
+
+                <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-muted);">
+                    Already have an account? <a href="#" onclick="toggleView('login')"
+                        style="color: var(--primary-color); font-weight: 600;">Sign In</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/rtl-toggle.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/particles.js"></script>
+    <script>
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            if (email.includes('admin')) {
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                window.location.href = 'user-dashboard.html';
+            }
+        }
+
+        // --- Register Flow Logic ---
+        function toggleView(view) {
+            const loginView = document.getElementById('login-view');
+            const registerView = document.getElementById('register-view');
+
+            if (view === 'register') {
+                loginView.style.display = 'none';
+                registerView.style.display = 'block';
+                // Reset to step 1
+                currentStep = 1;
+                updateSteps();
+            } else {
+                registerView.style.display = 'none';
+                loginView.style.display = 'block';
+            }
+        }
+
+        let currentStep = 1;
+
+        function nextStep(step) {
+            currentStep = step;
+            updateSteps();
+        }
+
+        function prevStep(step) {
+            currentStep = step;
+            updateSteps();
+        }
+
+        function updateSteps() {
+            // Update Progress Bar
+            const circles = document.querySelectorAll('.step-circle');
+            const fill = document.getElementById('progressFill');
+
+            circles.forEach(circle => {
+                const stepNum = parseInt(circle.dataset.step);
+                if (stepNum <= currentStep) {
+                    circle.classList.add('active');
+                } else {
+                    circle.classList.remove('active');
+                }
+            });
+
+            // Calculate fill width (0%, 50%, 100%)
+            const width = ((currentStep - 1) / (circles.length - 1)) * 100;
+            fill.style.width = width + '%';
+
+            // Show/Hide Form Steps with simple transition
+            document.querySelectorAll('.form-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step' + currentStep).classList.add('active');
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            alert("Registration Successful!");
+            toggleView('login');
+        }
+    </script>
+    <style>
+        /* Embedded Styles for Register Flow */
+        .progress-container {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .progress-bar-bg {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-50%);
+            z-index: 0;
+            border-radius: 2px;
+        }
+
+        .progress-bar-fill {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: var(--primary-color);
+            transform: translateY(-50%);
+            z-index: 0;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            background: var(--card-bg);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+
+        .step-circle.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+        }
+
+        .form-step {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</body>
+
+</html>

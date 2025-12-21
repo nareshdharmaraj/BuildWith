@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - BuildWith</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .dashboard-container {
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--nav-bg);
+            border: var(--glass-border);
+            border-radius: 0;
+            padding: 2rem 1rem;
+            height: calc(100vh - 80px);
+            position: fixed;
+            top: 80px;
+            left: 0;
+            overflow-y: auto;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 900;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            color: var(--text-color);
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .sidebar a i {
+            width: 25px;
+            margin-right: 10px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+            color: white;
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+            min-height: calc(100vh - 80px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            margin: 0.5rem 0;
+            background: linear-gradient(135deg, var(--text-color), var(--text-muted));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            padding: 2rem;
+            height: 400px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        canvas {
+            flex: 1;
+            min-height: 0;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-container {
+                padding-top: 70px;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                flex-direction: row;
+                overflow-x: auto;
+                padding: 1rem;
+                border-bottom: var(--glass-border);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .sidebar a {
+                white-space: nowrap;
+                margin-right: 1rem;
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar glass">
+        <div class="container nav-container">
+            <div class="logo">
+                <a href="index.html" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-hard-hat" style="font-size: 1.8rem; color: var(--primary-color);"></i>
+                    <h2
+                        style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; margin: 0;">
+                        BuildWith</h2>
+                </a>
+            </div>
+
+            <div class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item">
+                    <span class="nav-link">Home <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i></span>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html" class="dropdown-item">Corporate Home</a></li>
+                        <li><a href="index2.html" class="dropdown-item">Creative Home</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
+                <li class="nav-item">
+                    <span class="nav-link">Dashboard <i class="fas fa-chevron-down"
+                            style="font-size: 0.8rem;"></i></span>
+                    <ul class="dropdown-menu">
+                        <li><a href="user-dashboard.html" class="dropdown-item">User Dashboard</a></li>
+                        <li><a href="admin-dashboard.html" class="dropdown-item">Admin Dashboard</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="faq.html" class="nav-link">FAQ</a></li>
+            </ul>
+
+            <div class="nav-controls" style="display: flex; align-items: center; gap: 1rem;">
+                <button id="rtl-toggle" class="icon-btn" title="Toggle RTL"><i class="fas fa-globe"></i></button>
+                <button id="theme-toggle" class="icon-btn" title="Toggle Theme"><i class="fas fa-moon"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <aside class="sidebar glass" id="sidebar">
+            <div class="dashboard-label admin">Admin Dashboard</div>
+            <a href="#" class="active" onclick="switchTab('overview')"><i class="fas fa-home"></i> Overview</a>
+            <a href="#" onclick="switchTab('analytics')"><i class="fas fa-chart-pie"></i> Analytics</a>
+            <a href="#" onclick="switchTab('projects')"><i class="fas fa-building"></i> Projects</a>
+            <a href="#" onclick="switchTab('clients')"><i class="fas fa-users"></i> Clients</a>
+            <a href="#" onclick="switchTab('workers')"><i class="fas fa-hard-hat"></i> Workers</a>
+            <a href="#" onclick="switchTab('finance')"><i class="fas fa-chart-line"></i> Finance</a>
+            <a href="#" onclick="switchTab('settings')"><i class="fas fa-cog"></i> Settings</a>
+            <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--glass-border);">
+                <a href="index.html" style="color: #ef4444; justify-content: center;"><i
+                        class="fas fa-sign-out-alt"></i> Exit</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div id="overview-tab">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h1>Overview</h1>
+                    <button class="cta-btn" style="font-size: 0.9rem; padding: 0.5rem 1rem;"><i
+                            class="fas fa-download"></i> Report</button>
+                </div>
+
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card glass">
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;">Total
+                                Revenue</p>
+                            <h3>$1.2M</h3>
+                            <small style="color: #10b981; font-weight: 600;"><i class="fas fa-arrow-up"></i> 12% from
+                                last month</small>
+                        </div>
+                        <div
+                            style="width: 50px; height: 50px; background: rgba(79, 70, 229, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-dollar-sign fa-lg" style="color: var(--primary-color);"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card glass">
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;">Active
+                                Projects</p>
+                            <h3>12</h3>
+                            <small style="color: var(--text-muted);">3 near completion</small>
+                        </div>
+                        <div
+                            style="width: 50px; height: 50px; background: rgba(6, 182, 212, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-hard-hat fa-lg" style="color: var(--secondary-color);"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card glass">
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;">Clients
+                            </p>
+                            <h3>85</h3>
+                            <small style="color: #10b981; font-weight: 600;"><i class="fas fa-arrow-up"></i> 5 new this
+                                week</small>
+                        </div>
+                        <div
+                            style="width: 50px; height: 50px; background: rgba(245, 158, 11, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-smile fa-lg" style="color: var(--accent-color);"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Project Completion</h3>
+                        <canvas id="barChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Status Distribution</h3>
+                        <canvas id="doughnutChart"></canvas>
+                    </div>
+                    <div class="chart-container glass" style="grid-column: 1 / -1;">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Revenue Growth</h3>
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+                <!-- Additional Overview Charts -->
+                <div class="charts-grid">
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Server Load</h3>
+                        <canvas id="serverLoadChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">User Activity</h3>
+                        <canvas id="userActivityChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">System Alerts</h3>
+                        <canvas id="alertsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics-tab" style="display: none;">
+                <h1 style="margin-bottom: 2rem;">Detailed Analytics</h1>
+
+                <!-- Date Range Picker Mockup -->
+                <div class="glass"
+                    style="padding: 1rem; margin-bottom: 2rem; display: flex; gap: 1rem; align-items: center;">
+                    <span style="font-weight: 600;">Date Range:</span>
+                    <select style="padding: 0.5rem; border-radius: 6px; border: var(--glass-border);">
+                        <option>Last 30 Days</option>
+                        <option>Last Quarter</option>
+                        <option>Year to Date</option>
+                    </select>
+                    <button class="cta-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Apply</button>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Resource Allocation</h3>
+                        <canvas id="resourceChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Project Timeline vs Actual</h3>
+                        <canvas id="timelineChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Regional Performance</h3>
+                        <canvas id="regionChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Customer Satisfaction Trend</h3>
+                        <canvas id="satisfactionChart"></canvas>
+                    </div>
+                </div>
+                <div class="charts-grid">
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Bounce Rate</h3>
+                        <canvas id="bounceRateChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics-tab" style="display: none;">
+                <h1 style="margin-bottom: 2rem;">Detailed Analytics</h1>
+
+                <!-- Date Range Picker Mockup -->
+                <div class="glass"
+                    style="padding: 1rem; margin-bottom: 2rem; display: flex; gap: 1rem; align-items: center;">
+                    <span style="font-weight: 600;">Date Range:</span>
+                    <select style="padding: 0.5rem; border-radius: 6px; border: var(--glass-border);">
+                        <option>Last 30 Days</option>
+                        <option>Last Quarter</option>
+                        <option>Year to Date</option>
+                    </select>
+                    <button class="cta-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Apply</button>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Resource Allocation</h3>
+                        <canvas id="resourceChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Project Timeline vs Actual</h3>
+                        <canvas id="timelineChart"></canvas>
+                    </div>
+                    <div class="chart-container glass" style="grid-column: 1 / -1;">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Regional Performance</h3>
+                        <canvas id="regionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="projects-tab" style="display: none;">
+                <h1 style="margin-bottom: 2rem;">Projects Management</h1>
+                <!-- Added Stats -->
+                <div class="stats-grid" style="margin-bottom: 2rem;">
+                    <div class="stat-card glass">
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">Total Projects</p>
+                            <h3>45</h3>
+                        </div>
+                        <i class="fas fa-project-diagram fa-2x" style="color: var(--primary-color);"></i>
+                    </div>
+                    <div class="stat-card glass">
+                        <div>
+                            <p style="color: var(--text-muted); font-size: 0.9rem;">Delayed</p>
+                            <h3>3</h3>
+                        </div>
+                        <i class="fas fa-clock fa-2x" style="color: #ef4444;"></i>
+                    </div>
+                </div>
+                <!-- Added Charts -->
+                <div class="charts-grid" style="margin-bottom: 2rem;">
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Projects by Type</h3>
+                        <canvas id="projectTypeChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Project Status</h3>
+                        <canvas id="projectStatusChart"></canvas>
+                    </div>
+                </div>
+                <!-- Additional Projects Charts -->
+                <div class="charts-grid">
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Resource Utilization</h3>
+                        <canvas id="resourceUtilChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Budget Variance</h3>
+                        <canvas id="budgetVarChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Risk Matrix</h3>
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass" style="padding: 2rem; overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; min-width: 1000px;">
+                        <thead>
+                            <tr style="text-align: start; border-bottom: 1px solid var(--glass-border);">
+                                <th style="padding: 1rem;">Project Name</th>
+                                <th style="padding: 1rem;">Details</th>
+                                <th style="padding: 1rem;">Pricing</th>
+                                <th style="padding: 1rem;">Client Name</th>
+                                <th style="padding: 1rem;">Address</th>
+                                <th style="padding: 1rem;">Status</th>
+                                <th style="padding: 1rem;">Engineer Name</th>
+                                <th style="padding: 1rem;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+                                <td style="padding: 1rem; font-weight: 600;">Skyline Tower</td>
+                                <td style="padding: 1rem; font-size: 0.9rem;">20-Story Commercial</td>
+                                <td style="padding: 1rem;">$50M</td>
+                                <td style="padding: 1rem;">Horizon Group</td>
+                                <td style="padding: 1rem;">123 Business Rd, NY</td>
+                                <td style="padding: 1rem;"><span
+                                        style="background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Active</span>
+                                </td>
+                                <td style="padding: 1rem;">Marcus Chen</td>
+                                <td style="padding: 1rem;">
+                                    <button class="icon-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="icon-btn" style="color: #ef4444;"><i
+                                            class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+                                <td style="padding: 1rem; font-weight: 600;">Sunset Villa</td>
+                                <td style="padding: 1rem; font-size: 0.9rem;">Luxury Residential</td>
+                                <td style="padding: 1rem;">$2M</td>
+                                <td style="padding: 1rem;">Mr. John Smith</td>
+                                <td style="padding: 1rem;">45 Ocean Dr, FL</td>
+                                <td style="padding: 1rem;"><span
+                                        style="background: rgba(59, 130, 246, 0.2); color: #3b82f6; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Planning</span>
+                                </td>
+                                <td style="padding: 1rem;">Elena Rodriguez</td>
+                                <td style="padding: 1rem;">
+                                    <button class="icon-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="icon-btn" style="color: #ef4444;"><i
+                                            class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);">
+                                <td style="padding: 1rem; font-weight: 600;">City Bridge</td>
+                                <td style="padding: 1rem; font-size: 0.9rem;">Infrastructure Repair</td>
+                                <td style="padding: 1rem;">$8.5M</td>
+                                <td style="padding: 1rem;">City Council</td>
+                                <td style="padding: 1rem;">West River Bridge</td>
+                                <td style="padding: 1rem;"><span
+                                        style="background: rgba(245, 158, 11, 0.2); color: #d97706; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Review</span>
+                                </td>
+                                <td style="padding: 1rem;">David Sterling</td>
+                                <td style="padding: 1rem;">
+                                    <button class="icon-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="icon-btn" style="color: #ef4444;"><i
+                                            class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="clients-tab" style="display: none;">
+                <h1 style="margin-bottom: 2rem;">Client Management</h1>
+                <!-- Added Stats & Charts -->
+                <div class="stats-grid" style="margin-bottom: 2rem;">
+                    <div class="stat-card glass">
+                        <div>
+                            <p style="color: var(--text-muted);">Total Clients</p>
+                            <h3>120</h3>
+                        </div>
+                        <i class="fas fa-users fa-2x" style="color: var(--secondary-color);"></i>
+                    </div>
+                    <div class="stat-card glass">
+                        <div>
+                            <p style="color: var(--text-muted);">New (This Month)</p>
+                            <h3>+8</h3>
+                        </div>
+                        <i class="fas fa-user-plus fa-2x" style="color: #10b981;"></i>
+                    </div>
+                </div>
+                <div class="charts-grid" style="margin-bottom: 2rem;">
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Client Acquisition</h3>
+                        <canvas id="clientAcquisitionChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Client Distribution</h3>
+                        <canvas id="clientDistChart"></canvas>
+                    </div>
+                </div>
+                <!-- Additional Clients Charts -->
+                <div class="charts-grid">
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Client Retention</h3>
+                        <canvas id="clientRetentionChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Satisfaction Score</h3>
+                        <canvas id="clientSatChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Project inquires</h3>
+                        <canvas id="clientInquiryChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    <button class="cta-btn" style="margin-bottom: 1.5rem;">Add Client</button>
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div class="glass glass-no-hover" style="padding: 1.5rem; background: rgba(255,255,255,0.4);">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg"
+                                    style="width: 50px; height: 50px; border-radius: 50%;">
+                                <div>
+                                    <h4>Michael Chang</h4>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted);">CEO, TechFlow</p>
+                                </div>
+                            </div>
+                            <p style="font-size: 0.9rem; margin-bottom: 1rem;"><i class="fas fa-envelope"></i>
+                                michael@techflow.com</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 1rem;"><i class="fas fa-phone"></i> +1 555 0123
+                            </p>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="cta-btn"
+                                    style="font-size: 0.8rem; padding: 0.3rem 1rem;">Profile</button>
+                                <button class="icon-btn"><i class="fas fa-comment"></i></button>
+                            </div>
+                        </div>
+                        <div class="glass glass-no-hover" style="padding: 1.5rem; background: rgba(255,255,255,0.4);">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg"
+                                    style="width: 50px; height: 50px; border-radius: 50%;">
+                                <div>
+                                    <h4>Sarah Jenkins</h4>
+                                    <p style="font-size: 0.8rem; color: var(--text-muted);">Homeowner</p>
+                                </div>
+                            </div>
+                            <p style="font-size: 0.9rem; margin-bottom: 1rem;"><i class="fas fa-envelope"></i>
+                                sarah@mail.com</p>
+                            <p style="font-size: 0.9rem; margin-bottom: 1rem;"><i class="fas fa-phone"></i> +1 555 9876
+                            </p>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="cta-btn"
+                                    style="font-size: 0.8rem; padding: 0.3rem 1rem;">Profile</button>
+                                <button class="icon-btn"><i class="fas fa-comment"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="workers-tab" style="display: none;">
+                <h1 style="margin-bottom: 2rem;">Workers</h1>
+                <!-- Added Stats & Charts -->
+                <div class="stats-grid" style="margin-bottom: 2rem;">
+                    <div class="stat-card glass">
+                        <div>
+                            <p style="color: var(--text-muted);">Total Workforce</p>
+                            <h3>250</h3>
+                        </div>
+                        <i class="fas fa-hard-hat fa-2x" style="color: var(--primary-color);"></i>
+                    </div>
+                    <div class="stat-card glass">
+                        <div>
+                            <p style="color: var(--text-muted);">On Site Today</p>
+                            <h3>180</h3>
+                        </div>
+                        <i class="fas fa-check-circle fa-2x" style="color: #10b981;"></i>
+                    </div>
+                </div>
+                <div class="charts-grid" style="margin-bottom: 2rem;">
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Attendance Trends</h3>
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Role Distribution</h3>
+                        <canvas id="roleDistChart"></canvas>
+                    </div>
+                </div>
+                <!-- Additional Workers Charts -->
+                <div class="charts-grid">
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Safety Incidents</h3>
+                        <canvas id="safetyChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Performance Ratings</h3>
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Training Completion</h3>
+                        <canvas id="trainingChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass" style="padding: 2rem;">
+                    <table style="width: 100%; border-collapse: collapse; min-width: 600px;">
+                        <thead>
+                            <tr style="text-align: start; border-bottom: 1px solid var(--glass-border);">
+                                <th style="padding: 1rem;">Name</th>
+                                <th style="padding: 1rem;">Role</th>
+                                <th style="padding: 1rem;">Status</th>
+                                <th style="padding: 1rem;">Assigned To</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 1rem;">John Builder</td>
+                                <td style="padding: 1rem;">Foreman</td>
+                                <td style="padding: 1rem;"><span style="color: #10b981;">On Site</span></td>
+                                <td style="padding: 1rem;">Skyline Tower</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 1rem;">Jane Architect</td>
+                                <td style="padding: 1rem;">Senior Architect</td>
+                                <td style="padding: 1rem;"><span style="color: var(--primary-color);">Office</span></td>
+                                <td style="padding: 1rem;">Sunset Villa</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="finance-tab" style="display: none;">
+                <h1 style="margin-bottom: 2rem;">Financial Overview</h1>
+                <div class="glass" style="padding: 2rem;">
+                    <div
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                        <div style="background: rgba(255,255,255,0.3); padding: 1.5rem; border-radius: 12px;">
+                            <h4>Income This Month</h4>
+                            <h2 style="color: #10b981;">$350,000</h2>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.3); padding: 1.5rem; border-radius: 12px;">
+                            <h4>Expenses This Month</h4>
+                            <h2 style="color: #ef4444;">$120,000</h2>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.3); padding: 1.5rem; border-radius: 12px;">
+                            <h4>Net Profit</h4>
+                            <h2 style="color: var(--primary-color);">$230,000</h2>
+                        </div>
+                    </div>
+                    <!-- Added Finance Charts -->
+                    <div class="charts-grid" style="margin-bottom: 2rem;">
+                        <div class="chart-container glass" style="height: 300px;">
+                            <h3 style="margin-bottom: 1rem;">Revenue Breakdown</h3>
+                            <canvas id="revenueBreakdownChart"></canvas>
+                        </div>
+                        <div class="chart-container glass" style="height: 300px;">
+                            <h3 style="margin-bottom: 1rem;">Monthly Expenses</h3>
+                            <canvas id="expenseChart"></canvas>
+                        </div>
+                    </div>
+                    <!-- Additional Finance Charts -->
+                    <div class="charts-grid">
+                        <div class="chart-container glass" style="height: 300px;">
+                            <h3 style="margin-bottom: 1rem;">Cash Flow Analysis</h3>
+                            <canvas id="cashFlowChart"></canvas>
+                        </div>
+                        <div class="chart-container glass" style="height: 300px;">
+                            <h3 style="margin-bottom: 1rem;">Quarterly Profit</h3>
+                            <canvas id="quarterlyProfitChart"></canvas>
+                        </div>
+                        <div class="chart-container glass" style="height: 300px;">
+                            <h3 style="margin-bottom: 1rem;">Operating Costs</h3>
+                            <canvas id="operatingCostChart"></canvas>
+                        </div>
+                    </div>
+                    <h3>Recent Transactions</h3>
+                    <ul style="margin-top: 1rem;">
+                        <li
+                            style="padding: 1rem; border-bottom: 1px solid rgba(0,0,0,0.1); display: flex; justify-content: space-between;">
+                            <span>Payment from Client A</span>
+                            <span style="font-weight: bold; color: #10b981;">+$50,000</span>
+                        </li>
+                        <li
+                            style="padding: 1rem; border-bottom: 1px solid rgba(0,0,0,0.1); display: flex; justify-content: space-between;">
+                            <span>Material Cost (Steel)</span>
+                            <span style="font-weight: bold; color: #ef4444;">-$15,000</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings-tab" style="display: none;">
+                <h1>Settings</h1>
+                <!-- Added Settings Widgets -->
+                <div class="charts-grid" style="margin-bottom: 2rem;">
+                    <div class="glass" style="padding: 1.5rem;">
+                        <h3 style="margin-bottom: 1rem;"><i class="fas fa-server"></i> System Status</h3>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;"><span>Server
+                                Uptime</span> <span style="color:#10b981">99.9%</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Database</span> <span style="color:#10b981">Healthy</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;"><span>Last Backup</span> <span>2 hrs
+                                ago</span></div>
+                    </div>
+                    <div class="glass" style="padding: 1.5rem;">
+                        <h3 style="margin-bottom: 1rem;"><i class="fas fa-shield-alt"></i> Security Log</h3>
+                        <ul style="font-size: 0.9rem;">
+                            <li style="margin-bottom: 0.5rem; color: var(--text-muted);">Admin login from 192.168.1.1
+                            </li>
+                            <li style="margin-bottom: 0.5rem; color: var(--text-muted);">Password changed for User #42
+                            </li>
+                            <li style="color: var(--text-muted);">New firewall rule applied</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="glass" style="padding: 2rem; max-width: 600px; margin-top: 1rem;">
+                    <form>
+                        <h3>General Settings</h3>
+                        <div style="margin: 1rem 0;">
+                            <label style="display: block; margin-bottom: 0.5rem;">Site Name</label>
+                            <input type="text" value="BuildWith Admin"
+                                style="width: 100%; padding: 0.8rem; border-radius: 8px; border: var(--glass-border);">
+                        </div>
+                        <div style="margin: 1rem 0;">
+                            <label style="display: block; margin-bottom: 0.5rem;">Admin Email</label>
+                            <input type="email" value="admin@buildwith.com"
+                                style="width: 100%; padding: 0.8rem; border-radius: 8px; border: var(--glass-border);">
+                        </div>
+                        <div style="margin: 1rem 0;">
+                            <h4 style="margin-bottom: 0.5rem;">Notifications</h4>
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                <label><input type="checkbox" checked> Email</label>
+                                <label><input type="checkbox" checked> SMS</label>
+                                <label><input type="checkbox"> Push</label>
+                            </div>
+                        </div>
+                        <div class="glass" style="padding: 1rem; background: rgba(0,0,0,0.05); margin-bottom: 1rem;">
+                            <h4><i class="fas fa-chart-area"></i> Data Visualization</h4>
+                            <label style="display: block; margin-top: 0.5rem; font-size: 0.9rem;">Default Chart
+                                Type</label>
+                            <select style="width: 100%; padding: 0.5rem; margin-top: 0.3rem;">
+                                <option>Bar</option>
+                                <option>Line</option>
+                                <option>Pie</option>
+                            </select>
+                        </div>
+                        <h3>Appearance</h3>
+                        <div style="margin: 1rem 0;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" checked> Enable Dark Mode Auto-Detect
+                            </label>
+                        </div>
+                        <button class="cta-btn">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+            <footer>
+                <div class="container footer-grid">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                            <i class="fas fa-hard-hat" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                            <h3 style="font-size: 1.5rem; margin: 0;">BuildWith</h3>
+                        </div>
+                        <p>Constructing excellence since 1999.</p>
+                        <p style="margin-top: 0.8rem; opacity: 0.8;"><i class="fas fa-phone"
+                                style="margin-right: 0.5rem;"></i>+91 7200 7545 66</p>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="#" class="icon-btn"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="icon-btn"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="icon-btn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 1.2rem;">Quick Links</h4>
+                        <ul style="opacity: 0.8;">
+                            <li style="margin-bottom: 0.5rem;"><a href="index.html">Home</a></li>
+                            <li style="margin-bottom: 0.5rem;"><a href="projects.html">Projects</a></li>
+                            <li style="margin-bottom: 0.5rem;"><a href="about.html">About</a></li>
+                            <li style="margin-bottom: 0.5rem;"><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div
+                    style="text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(0,0,0,0.05); color: var(--text-muted); font-size: 0.9rem;">
+                    <p>&copy; 2025 BuildWith Construction Inc. All Rights Reserved.</p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="assets/js/rtl-toggle.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            const tabs = ['overview', 'analytics', 'projects', 'clients', 'workers', 'finance', 'settings'];
+            tabs.forEach(t => {
+                const el = document.getElementById(t + '-tab');
+                if (el) el.style.display = 'none';
+            });
+
+            const selected = document.getElementById(tabId + '-tab');
+            if (selected) selected.style.display = 'block';
+
+            document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        // Charts Configuration
+        // Charts Configuration
+        const baseOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: { color: window.matchMedia('(prefers-color-scheme: dark)').matches ? '#fff' : '#333' }
+                }
+            }
+        };
+
+        const cartesianOptions = {
+            ...baseOptions,
+            scales: {
+                y: { grid: { color: 'rgba(128,128,128,0.1)' } },
+                x: { grid: { color: 'rgba(128,128,128,0.1)' } }
+            }
+        };
+
+        const radialOptions = {
+            ...baseOptions,
+            scales: {
+                r: { grid: { color: 'rgba(128,128,128,0.1)' } }
+            }
+        };
+
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Project Progress',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: '#4F46E5',
+                    borderRadius: 5
+                }]
+            },
+            options: cartesianOptions
+        });
+
+        const ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
+        new Chart(ctxDoughnut, {
+            type: 'doughnut',
+            data: {
+                labels: ['Completed', 'Ongoing', 'Delayed'],
+                datasets: [{
+                    data: [30, 50, 20],
+                    backgroundColor: ['#10b981', '#3b82f6', '#ef4444'],
+                    borderWidth: 0
+                }]
+            },
+            options: { ...baseOptions, scales: {} }
+        });
+
+        const ctxLine = document.getElementById('lineChart').getContext('2d');
+        new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Revenue ($k)',
+                    data: [65, 59, 80, 81, 56, 120],
+                    fill: true,
+                    borderColor: '#06B6D4',
+                    backgroundColor: 'rgba(6, 182, 212, 0.2)',
+                    tension: 0.4
+                }]
+            },
+            options: cartesianOptions
+        });
+        // Analytics Charts
+        const ctxResource = document.getElementById('resourceChart').getContext('2d');
+        new Chart(ctxResource, {
+            type: 'radar',
+            data: {
+                labels: ['Engineering', 'Design', 'Labor', 'Management', 'Safety'],
+                datasets: [{
+                    label: 'Efficiency Score',
+                    data: [85, 90, 75, 88, 95],
+                    backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                    borderColor: '#f59e0b',
+                    pointBackgroundColor: '#f59e0b'
+                }]
+            },
+            options: radialOptions
+        });
+
+        const ctxTimeline = document.getElementById('timelineChart').getContext('2d');
+        new Chart(ctxTimeline, {
+            type: 'bar',
+            data: {
+                labels: ['P1', 'P2', 'P3', 'P4', 'P5'],
+                datasets: [
+                    { label: 'Planned Days', data: [30, 45, 60, 25, 90], backgroundColor: '#94a3b8' },
+                    { label: 'Actual Days', data: [32, 40, 65, 28, 85], backgroundColor: '#3b82f6' }
+                ]
+            },
+            options: cartesianOptions
+        });
+
+        const ctxRegion = document.getElementById('regionChart').getContext('2d');
+        new Chart(ctxRegion, {
+            type: 'line',
+            data: {
+                labels: ['North', 'South', 'East', 'West', 'Central'],
+                datasets: [{
+                    label: 'Revenue by Region ($M)',
+                    data: [2.5, 3.2, 1.8, 4.0, 2.1],
+                    borderColor: '#10b981',
+                    tension: 0.3
+                }]
+            },
+            options: cartesianOptions
+        });
+
+        // --- NEW CHARTS INIT ---
+
+        // Analytics Extra
+        if (document.getElementById('satisfactionChart')) {
+            new Chart(document.getElementById('satisfactionChart'), {
+                type: 'line',
+                data: {
+                    labels: ['W1', 'W2', 'W3', 'W4'],
+                    datasets: [{
+                        label: 'Satisfaction (1-10)',
+                        data: [8.5, 8.8, 8.7, 9.2],
+                        borderColor: '#fbbf24',
+                        tension: 0.4
+                    }]
+                },
+                options: cartesianOptions
+            });
+        }
+
+        // Projects Charts
+        if (document.getElementById('projectTypeChart')) {
+            new Chart(document.getElementById('projectTypeChart'), {
+                type: 'pie',
+                data: {
+                    labels: ['Residential', 'Commercial', 'Industrial', 'Infra'],
+                    datasets: [{
+                        data: [40, 30, 15, 15],
+                        backgroundColor: ['#4F46E5', '#10b981', '#f59e0b', '#ef4444']
+                    }]
+                },
+                options: baseOptions
+            });
+            new Chart(document.getElementById('projectStatusChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Planning', 'Active', 'Review', 'Done'],
+                    datasets: [{
+                        label: 'Projects',
+                        data: [10, 25, 5, 50],
+                        backgroundColor: '#3b82f6',
+                        borderRadius: 5
+                    }]
+                },
+                options: cartesianOptions
+            });
+        }
+
+        // Clients Charts
+        if (document.getElementById('clientAcquisitionChart')) {
+            new Chart(document.getElementById('clientAcquisitionChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                    datasets: [{
+                        label: 'New Clients',
+                        data: [5, 12, 8, 15, 20],
+                        borderColor: '#8b5cf6',
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(139, 92, 246, 0.2)'
+                    }]
+                },
+                options: cartesianOptions
+            });
+            new Chart(document.getElementById('clientDistChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Corporate', 'Private', 'Gov'],
+                    datasets: [{
+                        data: [50, 40, 10],
+                        backgroundColor: ['#0ea5e9', '#ec4899', '#6366f1']
+                    }]
+                },
+                options: baseOptions
+            });
+        }
+
+        // Workers Charts
+        if (document.getElementById('attendanceChart')) {
+            new Chart(document.getElementById('attendanceChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                    datasets: [{
+                        label: 'Present Workforce',
+                        data: [240, 245, 230, 248, 242],
+                        backgroundColor: '#10b981'
+                    }]
+                },
+                options: cartesianOptions
+            });
+            new Chart(document.getElementById('roleDistChart'), {
+                type: 'polarArea',
+                data: {
+                    labels: ['Engineers', 'Labor', 'Architects', 'Managers'],
+                    datasets: [{
+                        data: [20, 150, 15, 10],
+                        backgroundColor: ['#f59e0b', '#3b82f6', '#8b5cf6', '#ef4444']
+                    }]
+                },
+                options: radialOptions
+            });
+        }
+
+        // Finance Charts
+        if (document.getElementById('revenueBreakdownChart')) {
+            new Chart(document.getElementById('revenueBreakdownChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Projects', 'Consulting', 'Maintenance'],
+                    datasets: [{
+                        data: [80, 15, 5],
+                        backgroundColor: ['#10b981', '#f59e0b', '#3b82f6']
+                    }]
+                },
+                options: { ...baseOptions, maintainAspectRatio: false }
+            });
+            new Chart(document.getElementById('expenseChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Materials', 'Labor', 'Equip', 'Ops'],
+                    datasets: [{
+                        label: 'Expenses ($k)',
+                        data: [50, 40, 20, 10],
+                        backgroundColor: '#ef4444'
+                    }]
+                },
+                options: { ...cartesianOptions, maintainAspectRatio: false }
+            });
+        }
+        // --- EXTENDED DASHBOARD GRAPHS ---
+
+        // 1. Overview Tab Extensions
+        if (document.getElementById('serverLoadChart')) {
+            new Chart(document.getElementById('serverLoadChart'), {
+                type: 'line',
+                data: {
+                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                    datasets: [{
+                        label: 'Server Load (%)',
+                        data: [15, 10, 45, 75, 60, 30],
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: cartesianOptions
+            });
+
+            new Chart(document.getElementById('userActivityChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Active Users',
+                        data: [120, 150, 180, 200, 220, 90, 100],
+                        backgroundColor: '#3b82f6',
+                        borderRadius: 4
+                    }]
+                },
+                options: cartesianOptions
+            });
+
+            new Chart(document.getElementById('alertsChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Critical', 'Warning', 'Info'],
+                    datasets: [{
+                        data: [5, 15, 80],
+                        backgroundColor: ['#ef4444', '#f59e0b', '#10b981'],
+                        borderWidth: 0
+                    }]
+                },
+                options: baseOptions
+            });
+        }
+
+        // 2. Analytics Tab Extensions
+        if (document.getElementById('bounceRateChart')) {
+            new Chart(document.getElementById('bounceRateChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                    datasets: [{
+                        label: 'Bounce Rate (%)',
+                        data: [45, 42, 40, 38, 35],
+                        borderColor: '#8b5cf6',
+                        tension: 0.4
+                    }]
+                },
+                options: cartesianOptions
+            });
+        }
+
+        // 3. Projects Tab Extensions
+        if (document.getElementById('resourceUtilChart')) {
+            new Chart(document.getElementById('resourceUtilChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['P1', 'P2', 'P3', 'P4'],
+                    datasets: [{
+                        label: 'Resource Util (%)',
+                        data: [90, 75, 60, 85],
+                        backgroundColor: '#f97316'
+                    }]
+                },
+                options: cartesianOptions
+            });
+
+            new Chart(document.getElementById('budgetVarChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['P1', 'P2', 'P3', 'P4'],
+                    datasets: [{
+                        label: 'Variance ($k)',
+                        data: [5, -2, 8, 0],
+                        backgroundColor: ['#ef4444', '#10b981', '#ef4444', '#3b82f6']
+                    }]
+                },
+                options: cartesianOptions
+            });
+
+            new Chart(document.getElementById('riskChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['Financial', 'Safety', 'Legal', 'Schedule', 'Quality'],
+                    datasets: [{
+                        label: 'Risk Level',
+                        data: [3, 2, 1, 4, 2],
+                        backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                        borderColor: '#ef4444'
+                    }]
+                },
+                options: radialOptions
+            });
+        }
+
+        // 4. Clients Tab Extensions
+        if (document.getElementById('clientRetentionChart')) {
+            new Chart(document.getElementById('clientRetentionChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                    datasets: [{
+                        label: 'Retention Rate (%)',
+                        data: [95, 94, 96, 98],
+                        borderColor: '#10b981',
+                        tension: 0
+                    }]
+                },
+                options: cartesianOptions
+            });
+
+            new Chart(document.getElementById('clientSatChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['5 Star', '4 Star', '3 Star', '2 Star'],
+                    datasets: [{
+                        label: 'Reviews',
+                        data: [50, 30, 10, 5],
+                        backgroundColor: '#fbbf24'
+                    }]
+                },
+                options: cartesianOptions
+            });
+
+            new Chart(document.getElementById('clientInquiryChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                    datasets: [{
+                        label: 'Inquiries',
+                        data: [12, 19, 15, 25, 22],
+                        borderColor: '#3b82f6',
+                        fill: true,
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                    }]
+                },
+                options: cartesianOptions
+            });
+        }
+
+        // 5. Workers Tab Extensions
+        if (document.getElementById('safetyChart')) {
+            new Chart(document.getElementById('safetyChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                    datasets: [{
+                        label: 'Incidents',
+                        data: [2, 1, 0, 1, 0],
+                        borderColor: '#ef4444',
+                        tension: 0.1
+                    }]
+                },
+                options: cartesianOptions
+            });
+
+            new Chart(document.getElementById('performanceChart'), {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Performance vs Experience',
+                        data: [
+                            { x: 2, y: 3 }, { x: 5, y: 7 }, { x: 10, y: 9 }, { x: 1, y: 2 }, { x: 7, y: 8 }, { x: 4, y: 6 }
+                        ],
+                        backgroundColor: '#8b5cf6'
+                    }]
+                },
+                options: cartesianOptions
+            });
+
+            new Chart(document.getElementById('trainingChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Certified', 'Pending', 'Expiring'],
+                    datasets: [{
+                        data: [70, 20, 10],
+                        backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                        borderWidth: 0
+                    }]
+                },
+                options: baseOptions
+            });
+        }
+
+        // 6. Finance Tab Extensions
+        if (document.getElementById('cashFlowChart')) {
+            new Chart(document.getElementById('cashFlowChart'), {
+                type: 'line',
+                data: {
+                    labels: ['W1', 'W2', 'W3', 'W4'],
+                    datasets: [{
+                        label: 'Cash In',
+                        data: [50, 70, 60, 90],
+                        borderColor: '#10b981'
+                    }, {
+                        label: 'Cash Out',
+                        data: [40, 50, 55, 45],
+                        borderColor: '#ef4444'
+                    }]
+                },
+                options: cartesianOptions
+            });
+
+            new Chart(document.getElementById('quarterlyProfitChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                    datasets: [{
+                        label: 'Profit ($k)',
+                        data: [100, 150, 120, 200],
+                        backgroundColor: '#d97706'
+                    }]
+                },
+                options: cartesianOptions
+            });
+
+            new Chart(document.getElementById('operatingCostChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Rent', 'Utilities', 'Software', 'Travel'],
+                    datasets: [{
+                        label: 'Cost ($k)',
+                        data: [10, 5, 8, 12],
+                        backgroundColor: '#6b7280'
+                    }]
+                },
+                options: cartesianOptions
+            });
+        }
+    </script>
+</body>
+
+</html>
