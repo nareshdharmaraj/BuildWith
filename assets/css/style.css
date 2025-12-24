@@ -442,6 +442,11 @@ body.rtl-mode .dropdown-menu {
         margin-right: auto;
     }
 
+    body.rtl-mode .hamburger {
+        margin-right: 0;
+        margin-left: auto;
+    }
+
     /* Mobile Dropdown Styling */
     .dropdown-menu {
         position: static;
@@ -655,6 +660,70 @@ footer {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
+}
+
+/* Chart Title Colors for Dashboards */
+.chart-container h3,
+.chart-container h1,
+.stat-card h3 {
+    color: var(--text-color);
+    /* Ensure visibility in both modes */
+}
+
+/* RTL Mobile Menu Fix */
+/* RTL Mobile Menu Fix */
+@media (max-width: 900px) {
+    .nav-menu {
+        position: fixed;
+        width: 100%;
+        top: 70px;
+        /* Match mobile header height */
+        bottom: 0;
+        background: var(--nav-bg);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease-in-out;
+        transform: translateX(100%);
+        /* Hidden by default (LTR) */
+        right: 0;
+        left: auto;
+    }
+
+    .nav-menu.active {
+        transform: translateX(0);
+    }
+
+    body.rtl-mode .nav-menu {
+        right: auto;
+        left: 0;
+        transform: translateX(-100%);
+        /* Hidden by default (RTL) */
+    }
+
+    body.rtl-mode .nav-menu.active {
+        transform: translateX(0);
+    }
+
+    /* Fix Dashboard Overlap on Mobile */
+    .dashboard-container {
+        padding-top: 70px;
+        /* Ensure content starts below header */
+    }
+
+    .sidebar {
+        z-index: 900;
+        /* Sidebar above content but below navbar */
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        /* Force full width on mobile */
+        width: 100%;
+        overflow-x: hidden;
+        /* Prevent horizontal scroll */
+    }
 }
 
 /* FAQ Categories */

@@ -97,8 +97,8 @@
                 <li class="nav-item">
                     <span class="nav-link">Home <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i></span>
                     <ul class="dropdown-menu">
-                        <li><a href="index.html" class="dropdown-item">Corporate Home</a></li>
-                        <li><a href="index2.html" class="dropdown-item">Creative Home</a></li>
+                        <li><a href="index.html" class="dropdown-item">Home 1</a></li>
+                        <li><a href="index2.html" class="dropdown-item">Home 2</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
@@ -390,41 +390,7 @@
     <script src="assets/js/rtl-toggle.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/particles.js"></script>
-    <script>
-        // Counter Animation
-        const counters = document.querySelectorAll('.counter-number');
-        const options = {
-            threshold: 0.5
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const counter = entry.target;
-                    const target = +counter.getAttribute('data-target');
-                    const duration = 2000; // ms
-                    const increment = target / (duration / 16); // 60fps
-
-                    let current = 0;
-                    const updateCounter = () => {
-                        current += increment;
-                        if (current < target) {
-                            counter.innerText = Math.ceil(current);
-                            requestAnimationFrame(updateCounter);
-                        } else {
-                            counter.innerText = target + "+";
-                        }
-                    };
-                    updateCounter();
-                    observer.unobserve(counter);
-                }
-            });
-        }, options);
-
-        counters.forEach(counter => {
-            observer.observe(counter);
-        });
-    </script>
+    <script src="assets/js/counters.js"></script>
 </body>
 
 </html>

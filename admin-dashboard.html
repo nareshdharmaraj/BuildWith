@@ -156,8 +156,8 @@
                 <li class="nav-item">
                     <span class="nav-link">Home <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i></span>
                     <ul class="dropdown-menu">
-                        <li><a href="index.html" class="dropdown-item">Corporate Home</a></li>
-                        <li><a href="index2.html" class="dropdown-item">Creative Home</a></li>
+                        <li><a href="index.html" class="dropdown-item">Home 1</a></li>
+                        <li><a href="index2.html" class="dropdown-item">Home 2</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
@@ -275,6 +275,10 @@
                     <div class="chart-container glass">
                         <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">System Alerts</h3>
                         <canvas id="alertsChart"></canvas>
+                    </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Network Traffic</h3>
+                        <canvas id="networkTrafficChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -397,6 +401,10 @@
                         <h3 style="margin-bottom: 1.5rem;">Risk Matrix</h3>
                         <canvas id="riskChart"></canvas>
                     </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Supply Chain Delay</h3>
+                        <canvas id="supplyChainChart"></canvas>
+                    </div>
                 </div>
                 <div class="glass" style="padding: 2rem; overflow-x: auto;">
                     <table style="width: 100%; border-collapse: collapse; min-width: 1000px;">
@@ -509,6 +517,10 @@
                         <h3 style="margin-bottom: 1.5rem;">Project inquires</h3>
                         <canvas id="clientInquiryChart"></canvas>
                     </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Client Sentiment</h3>
+                        <canvas id="clientSentimentChart"></canvas>
+                    </div>
                 </div>
 
                 <div class="glass" style="padding: 2rem;">
@@ -600,6 +612,10 @@
                         <h3 style="margin-bottom: 1.5rem;">Training Completion</h3>
                         <canvas id="trainingChart"></canvas>
                     </div>
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;">Task Efficiency</h3>
+                        <canvas id="taskEfficiencyChart"></canvas>
+                    </div>
                 </div>
                 <div class="glass" style="padding: 2rem;">
                     <table style="width: 100%; border-collapse: collapse; min-width: 600px;">
@@ -669,6 +685,10 @@
                             <canvas id="quarterlyProfitChart"></canvas>
                         </div>
                         <div class="chart-container glass" style="height: 300px;">
+                            <h3 style="margin-bottom: 1rem;">Project Profitability</h3>
+                            <canvas id="projectProfitabilityChart"></canvas>
+                        </div>
+                        <div class="chart-container glass" style="height: 300px;">
                             <h3 style="margin-bottom: 1rem;">Operating Costs</h3>
                             <canvas id="operatingCostChart"></canvas>
                         </div>
@@ -692,6 +712,12 @@
             <!-- Settings Tab -->
             <div id="settings-tab" style="display: none;">
                 <h1>Settings</h1>
+                <div class="charts-grid" style="margin-bottom: 2rem;">
+                    <div class="chart-container glass">
+                        <h3 style="margin-bottom: 1.5rem;"><i class="fas fa-heartbeat"></i> System Health</h3>
+                        <canvas id="systemHealthChart"></canvas>
+                    </div>
+                </div>
                 <!-- Added Settings Widgets -->
                 <div class="charts-grid" style="margin-bottom: 2rem;">
                     <div class="glass" style="padding: 1.5rem;">
@@ -757,37 +783,6 @@
                     </form>
                 </div>
             </div>
-            <footer>
-                <div class="container footer-grid">
-                    <div>
-                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
-                            <i class="fas fa-hard-hat" style="font-size: 1.5rem; color: var(--primary-color);"></i>
-                            <h3 style="font-size: 1.5rem; margin: 0;">BuildWith</h3>
-                        </div>
-                        <p>Constructing excellence since 1999.</p>
-                        <p style="margin-top: 0.8rem; opacity: 0.8;"><i class="fas fa-phone"
-                                style="margin-right: 0.5rem;"></i>+91 7200 7545 66</p>
-                        <div style="margin-top: 1.5rem;">
-                            <a href="#" class="icon-btn"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="icon-btn"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="icon-btn"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div>
-                        <h4 style="margin-bottom: 1.2rem;">Quick Links</h4>
-                        <ul style="opacity: 0.8;">
-                            <li style="margin-bottom: 0.5rem;"><a href="index.html">Home</a></li>
-                            <li style="margin-bottom: 0.5rem;"><a href="projects.html">Projects</a></li>
-                            <li style="margin-bottom: 0.5rem;"><a href="about.html">About</a></li>
-                            <li style="margin-bottom: 0.5rem;"><a href="contact.html">Contact</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div
-                    style="text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(0,0,0,0.05); color: var(--text-muted); font-size: 0.9rem;">
-                    <p>&copy; 2025 BuildWith Construction Inc. All Rights Reserved.</p>
-                </div>
-            </footer>
         </main>
     </div>
 
@@ -811,493 +806,634 @@
 
         // Charts Configuration
         // Charts Configuration
-        const baseOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    labels: { color: window.matchMedia('(prefers-color-scheme: dark)').matches ? '#fff' : '#333' }
+        document.addEventListener('DOMContentLoaded', () => {
+            const getTextColor = () => {
+                const isDark = document.body.classList.contains('dark-mode') || localStorage.getItem('theme') === 'dark';
+                return isDark ? '#ffffff' : '#1e293b';
+            };
+
+            const baseOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: getTextColor()
+                        }
+                    }
                 }
-            }
-        };
+            };
 
-        const cartesianOptions = {
-            ...baseOptions,
-            scales: {
-                y: { grid: { color: 'rgba(128,128,128,0.1)' } },
-                x: { grid: { color: 'rgba(128,128,128,0.1)' } }
-            }
-        };
+            const cartesianOptions = {
+                ...baseOptions,
+                scales: {
+                    y: {
+                        grid: { color: 'rgba(128,128,128,0.1)' },
+                        ticks: { color: getTextColor() }
+                    },
+                    x: {
+                        grid: { color: 'rgba(128,128,128,0.1)' },
+                        ticks: { color: getTextColor() }
+                    }
+                }
+            };
 
-        const radialOptions = {
-            ...baseOptions,
-            scales: {
-                r: { grid: { color: 'rgba(128,128,128,0.1)' } }
-            }
-        };
+            const radialOptions = {
+                ...baseOptions,
+                scales: {
+                    r: {
+                        grid: { color: 'rgba(128,128,128,0.1)' },
+                        ticks: {
+                            color: getTextColor(),
+                            backdropColor: 'transparent'
+                        },
+                        pointLabels: { color: getTextColor() }
+                    }
+                }
+            };
 
-        const ctxBar = document.getElementById('barChart').getContext('2d');
-        new Chart(ctxBar, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Project Progress',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: '#4F46E5',
-                    borderRadius: 5
-                }]
-            },
-            options: cartesianOptions
-        });
-
-        const ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
-        new Chart(ctxDoughnut, {
-            type: 'doughnut',
-            data: {
-                labels: ['Completed', 'Ongoing', 'Delayed'],
-                datasets: [{
-                    data: [30, 50, 20],
-                    backgroundColor: ['#10b981', '#3b82f6', '#ef4444'],
-                    borderWidth: 0
-                }]
-            },
-            options: { ...baseOptions, scales: {} }
-        });
-
-        const ctxLine = document.getElementById('lineChart').getContext('2d');
-        new Chart(ctxLine, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Revenue ($k)',
-                    data: [65, 59, 80, 81, 56, 120],
-                    fill: true,
-                    borderColor: '#06B6D4',
-                    backgroundColor: 'rgba(6, 182, 212, 0.2)',
-                    tension: 0.4
-                }]
-            },
-            options: cartesianOptions
-        });
-        // Analytics Charts
-        const ctxResource = document.getElementById('resourceChart').getContext('2d');
-        new Chart(ctxResource, {
-            type: 'radar',
-            data: {
-                labels: ['Engineering', 'Design', 'Labor', 'Management', 'Safety'],
-                datasets: [{
-                    label: 'Efficiency Score',
-                    data: [85, 90, 75, 88, 95],
-                    backgroundColor: 'rgba(245, 158, 11, 0.2)',
-                    borderColor: '#f59e0b',
-                    pointBackgroundColor: '#f59e0b'
-                }]
-            },
-            options: radialOptions
-        });
-
-        const ctxTimeline = document.getElementById('timelineChart').getContext('2d');
-        new Chart(ctxTimeline, {
-            type: 'bar',
-            data: {
-                labels: ['P1', 'P2', 'P3', 'P4', 'P5'],
-                datasets: [
-                    { label: 'Planned Days', data: [30, 45, 60, 25, 90], backgroundColor: '#94a3b8' },
-                    { label: 'Actual Days', data: [32, 40, 65, 28, 85], backgroundColor: '#3b82f6' }
-                ]
-            },
-            options: cartesianOptions
-        });
-
-        const ctxRegion = document.getElementById('regionChart').getContext('2d');
-        new Chart(ctxRegion, {
-            type: 'line',
-            data: {
-                labels: ['North', 'South', 'East', 'West', 'Central'],
-                datasets: [{
-                    label: 'Revenue by Region ($M)',
-                    data: [2.5, 3.2, 1.8, 4.0, 2.1],
-                    borderColor: '#10b981',
-                    tension: 0.3
-                }]
-            },
-            options: cartesianOptions
-        });
-
-        // --- NEW CHARTS INIT ---
-
-        // Analytics Extra
-        if (document.getElementById('satisfactionChart')) {
-            new Chart(document.getElementById('satisfactionChart'), {
-                type: 'line',
-                data: {
-                    labels: ['W1', 'W2', 'W3', 'W4'],
-                    datasets: [{
-                        label: 'Satisfaction (1-10)',
-                        data: [8.5, 8.8, 8.7, 9.2],
-                        borderColor: '#fbbf24',
-                        tension: 0.4
-                    }]
-                },
-                options: cartesianOptions
-            });
-        }
-
-        // Projects Charts
-        if (document.getElementById('projectTypeChart')) {
-            new Chart(document.getElementById('projectTypeChart'), {
-                type: 'pie',
-                data: {
-                    labels: ['Residential', 'Commercial', 'Industrial', 'Infra'],
-                    datasets: [{
-                        data: [40, 30, 15, 15],
-                        backgroundColor: ['#4F46E5', '#10b981', '#f59e0b', '#ef4444']
-                    }]
-                },
-                options: baseOptions
-            });
-            new Chart(document.getElementById('projectStatusChart'), {
+            const ctxBar = document.getElementById('barChart').getContext('2d');
+            new Chart(ctxBar, {
                 type: 'bar',
                 data: {
-                    labels: ['Planning', 'Active', 'Review', 'Done'],
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                     datasets: [{
-                        label: 'Projects',
-                        data: [10, 25, 5, 50],
-                        backgroundColor: '#3b82f6',
+                        label: 'Project Progress',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: '#4F46E5',
                         borderRadius: 5
                     }]
                 },
                 options: cartesianOptions
             });
-        }
 
-        // Clients Charts
-        if (document.getElementById('clientAcquisitionChart')) {
-            new Chart(document.getElementById('clientAcquisitionChart'), {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                    datasets: [{
-                        label: 'New Clients',
-                        data: [5, 12, 8, 15, 20],
-                        borderColor: '#8b5cf6',
-                        tension: 0.4,
-                        fill: true,
-                        backgroundColor: 'rgba(139, 92, 246, 0.2)'
-                    }]
-                },
-                options: cartesianOptions
-            });
-            new Chart(document.getElementById('clientDistChart'), {
+            const ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
+            new Chart(ctxDoughnut, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Corporate', 'Private', 'Gov'],
+                    labels: ['Completed', 'Ongoing', 'Delayed'],
                     datasets: [{
-                        data: [50, 40, 10],
-                        backgroundColor: ['#0ea5e9', '#ec4899', '#6366f1']
-                    }]
-                },
-                options: baseOptions
-            });
-        }
-
-        // Workers Charts
-        if (document.getElementById('attendanceChart')) {
-            new Chart(document.getElementById('attendanceChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-                    datasets: [{
-                        label: 'Present Workforce',
-                        data: [240, 245, 230, 248, 242],
-                        backgroundColor: '#10b981'
-                    }]
-                },
-                options: cartesianOptions
-            });
-            new Chart(document.getElementById('roleDistChart'), {
-                type: 'polarArea',
-                data: {
-                    labels: ['Engineers', 'Labor', 'Architects', 'Managers'],
-                    datasets: [{
-                        data: [20, 150, 15, 10],
-                        backgroundColor: ['#f59e0b', '#3b82f6', '#8b5cf6', '#ef4444']
-                    }]
-                },
-                options: radialOptions
-            });
-        }
-
-        // Finance Charts
-        if (document.getElementById('revenueBreakdownChart')) {
-            new Chart(document.getElementById('revenueBreakdownChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Projects', 'Consulting', 'Maintenance'],
-                    datasets: [{
-                        data: [80, 15, 5],
-                        backgroundColor: ['#10b981', '#f59e0b', '#3b82f6']
-                    }]
-                },
-                options: { ...baseOptions, maintainAspectRatio: false }
-            });
-            new Chart(document.getElementById('expenseChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['Materials', 'Labor', 'Equip', 'Ops'],
-                    datasets: [{
-                        label: 'Expenses ($k)',
-                        data: [50, 40, 20, 10],
-                        backgroundColor: '#ef4444'
-                    }]
-                },
-                options: { ...cartesianOptions, maintainAspectRatio: false }
-            });
-        }
-        // --- EXTENDED DASHBOARD GRAPHS ---
-
-        // 1. Overview Tab Extensions
-        if (document.getElementById('serverLoadChart')) {
-            new Chart(document.getElementById('serverLoadChart'), {
-                type: 'line',
-                data: {
-                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
-                    datasets: [{
-                        label: 'Server Load (%)',
-                        data: [15, 10, 45, 75, 60, 30],
-                        borderColor: '#ef4444',
-                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: cartesianOptions
-            });
-
-            new Chart(document.getElementById('userActivityChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                    datasets: [{
-                        label: 'Active Users',
-                        data: [120, 150, 180, 200, 220, 90, 100],
-                        backgroundColor: '#3b82f6',
-                        borderRadius: 4
-                    }]
-                },
-                options: cartesianOptions
-            });
-
-            new Chart(document.getElementById('alertsChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Critical', 'Warning', 'Info'],
-                    datasets: [{
-                        data: [5, 15, 80],
-                        backgroundColor: ['#ef4444', '#f59e0b', '#10b981'],
+                        data: [30, 50, 20],
+                        backgroundColor: ['#10b981', '#3b82f6', '#ef4444'],
                         borderWidth: 0
                     }]
                 },
-                options: baseOptions
+                options: { ...baseOptions, scales: {} }
             });
-        }
 
-        // 2. Analytics Tab Extensions
-        if (document.getElementById('bounceRateChart')) {
-            new Chart(document.getElementById('bounceRateChart'), {
+            const ctxLine = document.getElementById('lineChart').getContext('2d');
+            new Chart(ctxLine, {
                 type: 'line',
                 data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                     datasets: [{
-                        label: 'Bounce Rate (%)',
-                        data: [45, 42, 40, 38, 35],
-                        borderColor: '#8b5cf6',
+                        label: 'Revenue ($k)',
+                        data: [65, 59, 80, 81, 56, 120],
+                        fill: true,
+                        borderColor: '#06B6D4',
+                        backgroundColor: 'rgba(6, 182, 212, 0.2)',
                         tension: 0.4
                     }]
                 },
                 options: cartesianOptions
             });
-        }
-
-        // 3. Projects Tab Extensions
-        if (document.getElementById('resourceUtilChart')) {
-            new Chart(document.getElementById('resourceUtilChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['P1', 'P2', 'P3', 'P4'],
-                    datasets: [{
-                        label: 'Resource Util (%)',
-                        data: [90, 75, 60, 85],
-                        backgroundColor: '#f97316'
-                    }]
-                },
-                options: cartesianOptions
-            });
-
-            new Chart(document.getElementById('budgetVarChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['P1', 'P2', 'P3', 'P4'],
-                    datasets: [{
-                        label: 'Variance ($k)',
-                        data: [5, -2, 8, 0],
-                        backgroundColor: ['#ef4444', '#10b981', '#ef4444', '#3b82f6']
-                    }]
-                },
-                options: cartesianOptions
-            });
-
-            new Chart(document.getElementById('riskChart'), {
+            // Analytics Charts
+            const ctxResource = document.getElementById('resourceChart').getContext('2d');
+            new Chart(ctxResource, {
                 type: 'radar',
                 data: {
-                    labels: ['Financial', 'Safety', 'Legal', 'Schedule', 'Quality'],
+                    labels: ['Engineering', 'Design', 'Labor', 'Management', 'Safety'],
                     datasets: [{
-                        label: 'Risk Level',
-                        data: [3, 2, 1, 4, 2],
-                        backgroundColor: 'rgba(239, 68, 68, 0.2)',
-                        borderColor: '#ef4444'
+                        label: 'Efficiency Score',
+                        data: [85, 90, 75, 88, 95],
+                        backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                        borderColor: '#f59e0b',
+                        pointBackgroundColor: '#f59e0b'
                     }]
                 },
                 options: radialOptions
             });
-        }
 
-        // 4. Clients Tab Extensions
-        if (document.getElementById('clientRetentionChart')) {
-            new Chart(document.getElementById('clientRetentionChart'), {
+            const ctxTimeline = document.getElementById('timelineChart').getContext('2d');
+            new Chart(ctxTimeline, {
+                type: 'bar',
+                data: {
+                    labels: ['P1', 'P2', 'P3', 'P4', 'P5'],
+                    datasets: [
+                        { label: 'Planned Days', data: [30, 45, 60, 25, 90], backgroundColor: '#94a3b8' },
+                        { label: 'Actual Days', data: [32, 40, 65, 28, 85], backgroundColor: '#3b82f6' }
+                    ]
+                },
+                options: cartesianOptions
+            });
+
+            const ctxRegion = document.getElementById('regionChart').getContext('2d');
+            new Chart(ctxRegion, {
                 type: 'line',
                 data: {
-                    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                    labels: ['North', 'South', 'East', 'West', 'Central'],
                     datasets: [{
-                        label: 'Retention Rate (%)',
-                        data: [95, 94, 96, 98],
+                        label: 'Revenue by Region ($M)',
+                        data: [2.5, 3.2, 1.8, 4.0, 2.1],
                         borderColor: '#10b981',
-                        tension: 0
+                        tension: 0.3
                     }]
                 },
                 options: cartesianOptions
             });
 
-            new Chart(document.getElementById('clientSatChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['5 Star', '4 Star', '3 Star', '2 Star'],
-                    datasets: [{
-                        label: 'Reviews',
-                        data: [50, 30, 10, 5],
-                        backgroundColor: '#fbbf24'
-                    }]
-                },
-                options: cartesianOptions
-            });
+            // --- NEW CHARTS INIT ---
 
-            new Chart(document.getElementById('clientInquiryChart'), {
-                type: 'line',
-                data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-                    datasets: [{
-                        label: 'Inquiries',
-                        data: [12, 19, 15, 25, 22],
-                        borderColor: '#3b82f6',
-                        fill: true,
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)'
-                    }]
-                },
-                options: cartesianOptions
-            });
-        }
+            // Analytics Extra
+            if (document.getElementById('satisfactionChart')) {
+                new Chart(document.getElementById('satisfactionChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['W1', 'W2', 'W3', 'W4'],
+                        datasets: [{
+                            label: 'Satisfaction (1-10)',
+                            data: [8.5, 8.8, 8.7, 9.2],
+                            borderColor: '#fbbf24',
+                            tension: 0.4
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+            }
 
-        // 5. Workers Tab Extensions
-        if (document.getElementById('safetyChart')) {
-            new Chart(document.getElementById('safetyChart'), {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                    datasets: [{
-                        label: 'Incidents',
-                        data: [2, 1, 0, 1, 0],
-                        borderColor: '#ef4444',
-                        tension: 0.1
-                    }]
-                },
-                options: cartesianOptions
-            });
+            // Projects Charts
+            if (document.getElementById('projectTypeChart')) {
+                new Chart(document.getElementById('projectTypeChart'), {
+                    type: 'pie',
+                    data: {
+                        labels: ['Residential', 'Commercial', 'Industrial', 'Infra'],
+                        datasets: [{
+                            data: [40, 30, 15, 15],
+                            backgroundColor: ['#4F46E5', '#10b981', '#f59e0b', '#ef4444']
+                        }]
+                    },
+                    options: baseOptions
+                });
+                new Chart(document.getElementById('projectStatusChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Planning', 'Active', 'Review', 'Done'],
+                        datasets: [{
+                            label: 'Projects',
+                            data: [10, 25, 5, 50],
+                            backgroundColor: '#3b82f6',
+                            borderRadius: 5
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+            }
 
-            new Chart(document.getElementById('performanceChart'), {
-                type: 'scatter',
-                data: {
-                    datasets: [{
-                        label: 'Performance vs Experience',
-                        data: [
-                            { x: 2, y: 3 }, { x: 5, y: 7 }, { x: 10, y: 9 }, { x: 1, y: 2 }, { x: 7, y: 8 }, { x: 4, y: 6 }
-                        ],
-                        backgroundColor: '#8b5cf6'
-                    }]
-                },
-                options: cartesianOptions
-            });
+            // Clients Charts
+            if (document.getElementById('clientAcquisitionChart')) {
+                new Chart(document.getElementById('clientAcquisitionChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                        datasets: [{
+                            label: 'New Clients',
+                            data: [5, 12, 8, 15, 20],
+                            borderColor: '#8b5cf6',
+                            tension: 0.4,
+                            fill: true,
+                            backgroundColor: 'rgba(139, 92, 246, 0.2)'
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+                new Chart(document.getElementById('clientDistChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Corporate', 'Private', 'Gov'],
+                        datasets: [{
+                            data: [50, 40, 10],
+                            backgroundColor: ['#0ea5e9', '#ec4899', '#6366f1']
+                        }]
+                    },
+                    options: baseOptions
+                });
+            }
 
-            new Chart(document.getElementById('trainingChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Certified', 'Pending', 'Expiring'],
-                    datasets: [{
-                        data: [70, 20, 10],
-                        backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
-                        borderWidth: 0
-                    }]
-                },
-                options: baseOptions
-            });
-        }
+            // Workers Charts
+            if (document.getElementById('attendanceChart')) {
+                new Chart(document.getElementById('attendanceChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                        datasets: [{
+                            label: 'Present Workforce',
+                            data: [240, 245, 230, 248, 242],
+                            backgroundColor: '#10b981'
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+                new Chart(document.getElementById('roleDistChart'), {
+                    type: 'polarArea',
+                    data: {
+                        labels: ['Engineers', 'Labor', 'Architects', 'Managers'],
+                        datasets: [{
+                            data: [20, 150, 15, 10],
+                            backgroundColor: ['#f59e0b', '#3b82f6', '#8b5cf6', '#ef4444']
+                        }]
+                    },
+                    options: radialOptions
+                });
+            }
 
-        // 6. Finance Tab Extensions
-        if (document.getElementById('cashFlowChart')) {
-            new Chart(document.getElementById('cashFlowChart'), {
-                type: 'line',
-                data: {
-                    labels: ['W1', 'W2', 'W3', 'W4'],
-                    datasets: [{
-                        label: 'Cash In',
-                        data: [50, 70, 60, 90],
-                        borderColor: '#10b981'
-                    }, {
-                        label: 'Cash Out',
-                        data: [40, 50, 55, 45],
-                        borderColor: '#ef4444'
-                    }]
-                },
-                options: cartesianOptions
-            });
+            // Finance Charts
+            if (document.getElementById('revenueBreakdownChart')) {
+                new Chart(document.getElementById('revenueBreakdownChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Projects', 'Consulting', 'Maintenance'],
+                        datasets: [{
+                            data: [80, 15, 5],
+                            backgroundColor: ['#10b981', '#f59e0b', '#3b82f6']
+                        }]
+                    },
+                    options: { ...baseOptions, maintainAspectRatio: false }
+                });
+                new Chart(document.getElementById('expenseChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Materials', 'Labor', 'Equip', 'Ops'],
+                        datasets: [{
+                            label: 'Expenses ($k)',
+                            data: [50, 40, 20, 10],
+                            backgroundColor: '#ef4444'
+                        }]
+                    },
+                    options: { ...cartesianOptions, maintainAspectRatio: false }
+                });
+            }
+            // --- EXTENDED DASHBOARD GRAPHS ---
 
-            new Chart(document.getElementById('quarterlyProfitChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-                    datasets: [{
-                        label: 'Profit ($k)',
-                        data: [100, 150, 120, 200],
-                        backgroundColor: '#d97706'
-                    }]
-                },
-                options: cartesianOptions
-            });
+            // 1. Overview Tab Extensions
+            if (document.getElementById('serverLoadChart')) {
+                new Chart(document.getElementById('serverLoadChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                        datasets: [{
+                            label: 'Server Load (%)',
+                            data: [15, 10, 45, 75, 60, 30],
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: cartesianOptions
+                });
 
-            new Chart(document.getElementById('operatingCostChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['Rent', 'Utilities', 'Software', 'Travel'],
-                    datasets: [{
-                        label: 'Cost ($k)',
-                        data: [10, 5, 8, 12],
-                        backgroundColor: '#6b7280'
-                    }]
-                },
-                options: cartesianOptions
+                new Chart(document.getElementById('userActivityChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Active Users',
+                            data: [120, 150, 180, 200, 220, 90, 100],
+                            backgroundColor: '#3b82f6',
+                            borderRadius: 4
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+
+                new Chart(document.getElementById('alertsChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Critical', 'Warning', 'Info'],
+                        datasets: [{
+                            data: [5, 15, 80],
+                            backgroundColor: ['#ef4444', '#f59e0b', '#10b981'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: baseOptions
+                });
+            }
+
+            // 2. Analytics Tab Extensions
+            if (document.getElementById('bounceRateChart')) {
+                new Chart(document.getElementById('bounceRateChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                        datasets: [{
+                            label: 'Bounce Rate (%)',
+                            data: [45, 42, 40, 38, 35],
+                            borderColor: '#8b5cf6',
+                            tension: 0.4
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+            }
+
+            // 3. Projects Tab Extensions
+            if (document.getElementById('resourceUtilChart')) {
+                new Chart(document.getElementById('resourceUtilChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['P1', 'P2', 'P3', 'P4'],
+                        datasets: [{
+                            label: 'Resource Util (%)',
+                            data: [90, 75, 60, 85],
+                            backgroundColor: '#f97316'
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+
+                new Chart(document.getElementById('budgetVarChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['P1', 'P2', 'P3', 'P4'],
+                        datasets: [{
+                            label: 'Variance ($k)',
+                            data: [5, -2, 8, 0],
+                            backgroundColor: ['#ef4444', '#10b981', '#ef4444', '#3b82f6']
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+
+                new Chart(document.getElementById('riskChart'), {
+                    type: 'radar',
+                    data: {
+                        labels: ['Financial', 'Safety', 'Legal', 'Schedule', 'Quality'],
+                        datasets: [{
+                            label: 'Risk Level',
+                            data: [3, 2, 1, 4, 2],
+                            backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                            borderColor: '#ef4444'
+                        }]
+                    },
+                    options: radialOptions
+                });
+            }
+
+            // 4. Clients Tab Extensions
+            if (document.getElementById('clientRetentionChart')) {
+                new Chart(document.getElementById('clientRetentionChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                        datasets: [{
+                            label: 'Retention Rate (%)',
+                            data: [95, 94, 96, 98],
+                            borderColor: '#10b981',
+                            tension: 0
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+
+                new Chart(document.getElementById('clientSatChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['5 Star', '4 Star', '3 Star', '2 Star'],
+                        datasets: [{
+                            label: 'Reviews',
+                            data: [50, 30, 10, 5],
+                            backgroundColor: '#fbbf24'
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+
+                new Chart(document.getElementById('clientInquiryChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                        datasets: [{
+                            label: 'Inquiries',
+                            data: [12, 19, 15, 25, 22],
+                            borderColor: '#3b82f6',
+                            fill: true,
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+            }
+
+            // 5. Workers Tab Extensions
+            if (document.getElementById('safetyChart')) {
+                new Chart(document.getElementById('safetyChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                        datasets: [{
+                            label: 'Incidents',
+                            data: [2, 1, 0, 1, 0],
+                            borderColor: '#ef4444',
+                            tension: 0.1
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+
+                new Chart(document.getElementById('performanceChart'), {
+                    type: 'scatter',
+                    data: {
+                        datasets: [{
+                            label: 'Performance vs Experience',
+                            data: [
+                                { x: 2, y: 3 }, { x: 5, y: 7 }, { x: 10, y: 9 }, { x: 1, y: 2 }, { x: 7, y: 8 }, { x: 4, y: 6 }
+                            ],
+                            backgroundColor: '#8b5cf6'
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+
+                new Chart(document.getElementById('trainingChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Certified', 'Pending', 'Expiring'],
+                        datasets: [{
+                            data: [70, 20, 10],
+                            backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: baseOptions
+                });
+            }
+
+            // 6. Finance Tab Extensions
+            if (document.getElementById('cashFlowChart')) {
+                new Chart(document.getElementById('cashFlowChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['W1', 'W2', 'W3', 'W4'],
+                        datasets: [{
+                            label: 'Cash In',
+                            data: [50, 70, 60, 90],
+                            borderColor: '#10b981'
+                        }, {
+                            label: 'Cash Out',
+                            data: [40, 50, 55, 45],
+                            borderColor: '#ef4444'
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+
+                new Chart(document.getElementById('quarterlyProfitChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+                        datasets: [{
+                            label: 'Profit ($k)',
+                            data: [100, 150, 120, 200],
+                            backgroundColor: '#d97706'
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+
+                new Chart(document.getElementById('operatingCostChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Rent', 'Utilities', 'Software', 'Travel'],
+                        datasets: [{
+                            label: 'Cost ($k)',
+                            data: [10, 5, 8, 12],
+                            backgroundColor: '#6b7280'
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+            }
+            if (document.getElementById('networkTrafficChart')) {
+                new Chart(document.getElementById('networkTrafficChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['00:00', '06:00', '12:00', '18:00', '24:00'],
+                        datasets: [{
+                            label: 'MB/s',
+                            data: [50, 80, 200, 150, 40],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            fill: true
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+            }
+            if (document.getElementById('supplyChainChart')) {
+                new Chart(document.getElementById('supplyChainChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Steel', 'Concrete', 'Glass', 'Wood'],
+                        datasets: [{
+                            label: 'Delay (Days)',
+                            data: [2, 0, 5, 1],
+                            backgroundColor: '#ef4444'
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+            }
+            if (document.getElementById('clientSentimentChart')) {
+                new Chart(document.getElementById('clientSentimentChart'), {
+                    type: 'polarArea',
+                    data: {
+                        labels: ['Happy', 'Neutral', 'Concerned'],
+                        datasets: [{
+                            data: [80, 15, 5],
+                            backgroundColor: ['#10b981', '#f59e0b', '#ef4444']
+                        }]
+                    },
+                    options: radialOptions
+                });
+            }
+            if (document.getElementById('taskEfficiencyChart')) {
+                new Chart(document.getElementById('taskEfficiencyChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Team A', 'Team B', 'Team C'],
+                        datasets: [{
+                            label: 'Tasks/Week',
+                            data: [45, 50, 40],
+                            backgroundColor: '#3b82f6'
+                        }]
+                    },
+                    options: cartesianOptions
+                });
+            }
+            if (document.getElementById('projectProfitabilityChart')) {
+                new Chart(document.getElementById('projectProfitabilityChart'), {
+                    type: 'bubble',
+                    data: {
+                        datasets: [{
+                            label: 'Projects',
+                            data: [
+                                { x: 20, y: 30, r: 15 },
+                                { x: 40, y: 10, r: 10 },
+                                { x: 30, y: 20, r: 20 }
+                            ],
+                            backgroundColor: '#8b5cf6'
+                        }]
+                    },
+                    options: baseOptions
+                });
+            }
+            if (document.getElementById('systemHealthChart')) {
+                new Chart(document.getElementById('systemHealthChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Healthy', 'Issues'],
+                        datasets: [{
+                            data: [95, 5],
+                            backgroundColor: ['#10b981', '#ef4444'],
+                            circumference: 180,
+                            rotation: 270
+                        }]
+                    },
+                    options: baseOptions
+                });
+            }
+            // Dynamic Theme Update
+            const updateChartsTheme = () => {
+                const isDark = document.body.classList.contains('dark-mode');
+                const textColor = isDark ? '#ffffff' : '#1e293b';
+                const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(128,128,128,0.1)';
+
+                Object.values(Chart.instances).forEach(chart => {
+                    if (chart.options.plugins && chart.options.plugins.legend && chart.options.plugins.legend.labels) {
+                        chart.options.plugins.legend.labels.color = textColor;
+                    }
+                    if (chart.options.scales) {
+                        Object.keys(chart.options.scales).forEach(scaleKey => {
+                            const scale = chart.options.scales[scaleKey];
+                            if (scale.ticks) scale.ticks.color = textColor;
+                            if (scale.grid) scale.grid.color = gridColor;
+                            if (scale.pointLabels) scale.pointLabels.color = textColor;
+                        });
+                    }
+                    chart.update();
+                });
+            };
+
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.attributeName === 'class') {
+                        updateChartsTheme();
+                    }
+                });
             });
-        }
+            observer.observe(document.body, { attributes: true });
+        });
     </script>
 </body>
 
