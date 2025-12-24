@@ -18,9 +18,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const navMenu = document.getElementById('nav-menu');
 
     if (hamburger && navMenu) {
+        // Toggle Open
         hamburger.addEventListener('click', () => {
             navMenu.classList.toggle('active');
             hamburger.setAttribute('aria-expanded', navMenu.classList.contains('active'));
+        });
+
+        // Close Button Logic
+        // Since we are inserting the button dynamically into HTML, we need to select it.
+        // Or wait, I am editing the HTML files directly.
+        const closeBtn = navMenu.querySelector('.nav-close-btn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+            });
+        }
+
+        // Close when clicking outside (on the shadow backdrop)
+        document.addEventListener('click', (e) => {
+            if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                navMenu.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+            }
         });
     }
 

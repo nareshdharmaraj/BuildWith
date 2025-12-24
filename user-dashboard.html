@@ -88,13 +88,8 @@
             }
 
             .sidebar {
-                width: 100%;
-                height: auto;
-                position: static;
-                flex-direction: row;
-                overflow-x: auto;
-                padding: 1rem;
-                border-bottom: var(--glass-border);
+                display: none;
+                /* Hide sidebar on mobile, moved to Hamburger Menu */
             }
 
             .main-content {
@@ -142,25 +137,51 @@
             </div>
 
             <ul class="nav-menu" id="nav-menu">
+                <div class="nav-close-btn"><i class="fas fa-times"></i></div>
+
+                <!-- User Dashboard Mobile Nav -->
                 <li class="nav-item">
-                    <span class="nav-link">Home <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i></span>
-                    <ul class="dropdown-menu">
-                        <li><a href="index.html" class="dropdown-item">Home 1</a></li>
-                        <li><a href="index2.html" class="dropdown-item">Home 2</a></li>
-                    </ul>
+                    <a href="#" class="nav-link"
+                        onclick="switchTab('overview'); document.getElementById('nav-menu').classList.remove('active');">
+                        <i class="fas fa-home" style="margin-right: 10px;"></i> Overview
+                    </a>
                 </li>
-                <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
                 <li class="nav-item">
-                    <span class="nav-link">Dashboard <i class="fas fa-chevron-down"
-                            style="font-size: 0.8rem;"></i></span>
-                    <ul class="dropdown-menu">
-                        <li><a href="user-dashboard.html" class="dropdown-item">User Dashboard</a></li>
-                        <li><a href="admin-dashboard.html" class="dropdown-item">Admin Dashboard</a></li>
-                    </ul>
+                    <a href="#" class="nav-link"
+                        onclick="switchTab('projects'); document.getElementById('nav-menu').classList.remove('active');">
+                        <i class="fas fa-hard-hat" style="margin-right: 10px;"></i> My Projects
+                    </a>
                 </li>
-                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-                <li class="nav-item"><a href="faq.html" class="nav-link">FAQ</a></li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"
+                        onclick="switchTab('invoices'); document.getElementById('nav-menu').classList.remove('active');">
+                        <i class="fas fa-file-invoice-dollar" style="margin-right: 10px;"></i> Invoices
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"
+                        onclick="switchTab('documents'); document.getElementById('nav-menu').classList.remove('active');">
+                        <i class="fas fa-file-contract" style="margin-right: 10px;"></i> Documents
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"
+                        onclick="switchTab('messages'); document.getElementById('nav-menu').classList.remove('active');">
+                        <i class="fas fa-envelope" style="margin-right: 10px;"></i> Messages
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"
+                        onclick="switchTab('profile'); document.getElementById('nav-menu').classList.remove('active');">
+                        <i class="fas fa-user-cog" style="margin-right: 10px;"></i> Profile
+                    </a>
+                </li>
+
+                <li class="nav-item" style="margin-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <a href="index.html" class="nav-link" style="color: #ef4444;">
+                        <i class="fas fa-sign-out-alt" style="margin-right: 10px;"></i> Log Out
+                    </a>
+                </li>
             </ul>
 
             <div class="nav-controls" style="display: flex; align-items: center; gap: 1rem;">

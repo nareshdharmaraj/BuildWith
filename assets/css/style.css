@@ -397,42 +397,270 @@ body.rtl-mode .dropdown-menu {
         height: 32px !important;
     }
 
+    /* Mobile Menu Container - Stylish 3/4 Width */
     .nav-menu {
         position: fixed;
         left: -100%;
-        top: 70px;
-        /* Below navbar */
-        width: 100%;
-        height: auto;
-        min-height: 50vh;
-        background: var(--nav-bg);
+        top: 0;
+        width: 75%;
+        height: 100vh;
+
+        /* Vibrant Animated Gradient */
+        background: linear-gradient(-45deg, #2563eb, #4f46e5, #7c3aed, #db2777);
+        background-size: 200% 200%;
+        animation: gradientBG 6s ease infinite;
+
+        /* Mass Shadow removed from base to fix overlay bug */
+        box-shadow: none;
+
         flex-direction: column;
         justify-content: flex-start;
-        padding: 2rem;
-        gap: 1.5rem;
-        transition: left 0.3s ease-in-out, right 0.3s ease-in-out;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
+        align-items: flex-start;
+        padding: 5rem 1.5rem 2rem;
+        /* Adjusted padding to prevent cut-off */
+        gap: 0;
+
+        transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+            right 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+            box-shadow 0.4s ease;
+        /* Animate shadow */
+        z-index: 1100;
+        border-radius: 0 25px 25px 0;
+        overflow-y: auto;
+        /* Ensure vertical scrolling */
+        -webkit-overflow-scrolling: touch;
+
+        /* Fix for Persistent Blur/Overlay */
+        visibility: hidden;
+        transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+            right 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+            box-shadow 0.4s ease,
+            visibility 0s linear 0.4s;
+        /* Hide after slide out */
     }
 
     body.dark-mode .nav-menu {
-        background: rgba(15, 23, 42, 0.95);
+        background: linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #4c1d95);
+        background-size: 200% 200%;
+    }
+
+    /* Close Button */
+    .nav-close-btn {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: white;
+        font-size: 1.2rem;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s;
+        z-index: 10;
+        opacity: 0;
+        /* Animated in with menu */
+        transform: scale(0.8);
+    }
+
+    .nav-menu.active .nav-close-btn {
+        opacity: 1;
+        transform: scale(1);
+        transition-delay: 0.3s;
+    }
+
+    .nav-close-btn:hover {
+        background: white;
+        color: var(--primary-color);
+        transform: rotate(90deg);
+    }
+
+    body.rtl-mode .nav-close-btn {
+        right: auto;
+        left: 1.5rem;
+    }
+
+    @keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
     }
 
     .nav-menu.active {
         left: 0;
+        /* Apply Massive Shadow only when active */
+        box-shadow: 5px 0 25px rgba(0, 0, 0, 0.3), 0 0 0 100vw rgba(0, 0, 0, 0.6);
+        visibility: visible;
+        transition-delay: 0s;
+        /* Show immediately */
     }
 
-    /* RTL Mode Mobile Menu */
+    /* RTL Support for Mobile Menu */
     body.rtl-mode .nav-menu {
         left: auto;
         right: -100%;
+        border-radius: 25px 0 0 25px;
+        border-right: none;
+        align-items: flex-end;
+        /* Align right in RTL */
+        box-shadow: none;
+        /* No shadow by default */
     }
 
     body.rtl-mode .nav-menu.active {
         left: auto;
         right: 0;
+        /* RTL Shadow Direction */
+        box-shadow: -5px 0 25px rgba(0, 0, 0, 0.3), 0 0 0 100vw rgba(0, 0, 0, 0.6);
+    }
+
+    /* Mobile Nav Items */
+    .nav-item {
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 0;
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    body.rtl-mode .nav-item {
+        transform: translateX(20px);
+    }
+
+    .nav-menu.active .nav-item {
+        animation: slideInItem 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Staggered Delays */
+    .nav-menu.active .nav-item:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .nav-menu.active .nav-item:nth-child(2) {
+        animation-delay: 0.15s;
+    }
+
+    .nav-menu.active .nav-item:nth-child(3) {
+        animation-delay: 0.2s;
+    }
+
+    .nav-menu.active .nav-item:nth-child(4) {
+        animation-delay: 0.25s;
+    }
+
+    .nav-menu.active .nav-item:nth-child(5) {
+        animation-delay: 0.3s;
+    }
+
+    .nav-menu.active .nav-item:nth-child(6) {
+        animation-delay: 0.35s;
+    }
+
+    @keyframes slideInItem {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideInItemRTL {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    body.rtl-mode .nav-menu.active .nav-item {
+        animation-name: slideInItemRTL;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 1.2rem 0.5rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+        width: 100%;
+        color: white;
+        /* Always white on gradient */
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: padding 0.3s;
+    }
+
+    .nav-link:hover {
+        padding-left: 1.5rem;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    body.rtl-mode .nav-link:hover {
+        padding-left: 0.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .nav-link i {
+        display: none;
+    }
+
+    /* Dropdowns */
+    .dropdown-menu {
+        position: static;
+        width: 100%;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        background: transparent;
+        box-shadow: none;
+        border: none;
+        padding: 0 0 1rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-top: 0;
+    }
+
+    body.rtl-mode .dropdown-menu {
+        padding: 0 1rem 1rem 0;
+    }
+
+    .dropdown-item {
+        background: rgba(255, 255, 255, 0.1);
+        /* Translucent white pill */
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+        color: white;
+        border-radius: 50px;
+        /* Pill shape */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(5px);
+        transition: all 0.2s;
+        width: 90%;
+    }
+
+    .dropdown-item:hover {
+        background: white;
+        color: var(--primary-color);
+        transform: translateX(5px);
     }
 
     .hamburger {
@@ -445,28 +673,6 @@ body.rtl-mode .dropdown-menu {
     body.rtl-mode .hamburger {
         margin-right: 0;
         margin-left: auto;
-    }
-
-    /* Mobile Dropdown Styling */
-    .dropdown-menu {
-        position: static;
-        width: 100%;
-        opacity: 1;
-        visibility: visible;
-        transform: none !important;
-        background: rgba(255, 255, 255, 0.05);
-        /* Slight highlight */
-        box-shadow: none;
-        padding-left: 0;
-        display: none;
-        /* Hidden by default */
-        margin-top: 0.5rem;
-    }
-
-    .nav-item:hover .dropdown-menu {
-        display: flex;
-        /* Show on hover for simplicity on mobile touch */
-        animation: fadeInUp 0.3s;
     }
 }
 
@@ -672,59 +878,8 @@ footer {
 
 /* RTL Mobile Menu Fix */
 /* RTL Mobile Menu Fix */
-@media (max-width: 900px) {
-    .nav-menu {
-        position: fixed;
-        width: 100%;
-        top: 70px;
-        /* Match mobile header height */
-        bottom: 0;
-        background: var(--nav-bg);
-        backdrop-filter: blur(10px);
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.3s ease-in-out;
-        transform: translateX(100%);
-        /* Hidden by default (LTR) */
-        right: 0;
-        left: auto;
-    }
 
-    .nav-menu.active {
-        transform: translateX(0);
-    }
 
-    body.rtl-mode .nav-menu {
-        right: auto;
-        left: 0;
-        transform: translateX(-100%);
-        /* Hidden by default (RTL) */
-    }
-
-    body.rtl-mode .nav-menu.active {
-        transform: translateX(0);
-    }
-
-    /* Fix Dashboard Overlap on Mobile */
-    .dashboard-container {
-        padding-top: 70px;
-        /* Ensure content starts below header */
-    }
-
-    .sidebar {
-        z-index: 900;
-        /* Sidebar above content but below navbar */
-    }
-
-    .main-content {
-        margin-left: 0 !important;
-        /* Force full width on mobile */
-        width: 100%;
-        overflow-x: hidden;
-        /* Prevent horizontal scroll */
-    }
-}
 
 /* FAQ Categories */
 .faq-categories {
