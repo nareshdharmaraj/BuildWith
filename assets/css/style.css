@@ -354,6 +354,10 @@ body.rtl-mode .dropdown-menu {
     flex-shrink: 0;
 }
 
+.nav-close-btn {
+    display: none;
+}
+
 
 @media (max-width: 900px) {
     .navbar {
@@ -405,10 +409,10 @@ body.rtl-mode .dropdown-menu {
         width: 75%;
         height: 100vh;
 
-        /* Vibrant Animated Gradient */
-        background: linear-gradient(-45deg, #2563eb, #4f46e5, #7c3aed, #db2777);
-        background-size: 200% 200%;
-        animation: gradientBG 6s ease infinite;
+        /* Orange-White Theme */
+        background: linear-gradient(135deg, #d97706, #fbbf24);
+        /* background-size: 200% 200%; */
+        /* animation: gradientBG 6s ease infinite; */
 
         /* Mass Shadow removed from base to fix overlay bug */
         box-shadow: none;
@@ -440,8 +444,8 @@ body.rtl-mode .dropdown-menu {
     }
 
     body.dark-mode .nav-menu {
-        background: linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #4c1d95);
-        background-size: 200% 200%;
+        background: linear-gradient(135deg, #d97706, #fbbf24);
+        /* background-size: 200% 200%; */
     }
 
     /* Close Button */
@@ -667,7 +671,7 @@ body.rtl-mode .dropdown-menu {
         display: block;
         z-index: 1001;
         order: -1;
-        margin-right: auto;
+        /* margin-right: auto; Removed for better alignment distribution */
     }
 
     body.rtl-mode .hamburger {
