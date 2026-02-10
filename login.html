@@ -5,29 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - BuildWith</title>
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        .login-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=1920') no-repeat center center/cover;
-            position: relative;
-            padding-top: 80px;
-            padding-bottom: 20px;
-            overflow: hidden;
-        }
-
-        .login-wrapper::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.85);
-            /* Dark overlay */
-            z-index: 0;
+        /* Updated Logic Body Style handled by style.css class .login-body */
+        body {
+            /* Inherit or reset */
         }
 
         body {
@@ -229,57 +214,17 @@
     </style>
 </head>
 
-<body>
+</head>
 
-    <!-- Top Navigation -->
-    <nav class="login-nav">
-        <div class="container">
-            <div class="logo">
-                <a href="index.html" style="display: flex; align-items: center; gap: 0.5rem;">
-                    <i class="fas fa-hard-hat" style="font-size: 1.8rem; color: var(--primary-color);"></i>
-                    <h2
-                        style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; margin: 0;">
-                        BuildWith</h2>
-                </a>
-            </div>
+<body class="login-body">
 
-            <!-- Mobile Menu Elements -->
-            <div class="hamburger" id="hamburger">
-                <i class="fas fa-bars"></i>
-            </div>
-
-            <ul class="nav-menu" id="nav-menu">
-                <div class="nav-close-btn"><i class="fas fa-times"></i></div>
-                <li class="nav-item">
-                    <span class="nav-link">Home <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i></span>
-                    <ul class="dropdown-menu">
-                        <li><a href="index.html" class="dropdown-item">Home 1</a></li>
-                        <li><a href="index2.html" class="dropdown-item">Home 2</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
-                <li class="nav-item">
-                    <span class="nav-link">Dashboard <i class="fas fa-chevron-down"
-                            style="font-size: 0.8rem;"></i></span>
-                    <ul class="dropdown-menu">
-                        <li><a href="user-dashboard.html" class="dropdown-item">User Dashboard</a></li>
-                        <li><a href="admin-dashboard.html" class="dropdown-item">Admin Dashboard</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-                <li class="nav-item"><a href="faq.html" class="nav-link">FAQ</a></li>
-            </ul>
-
-            <div class="login-nav-controls">
-                <button id="rtl-toggle" class="icon-btn" title="Toggle RTL"><i class="fas fa-globe"></i></button>
-                <!-- Theme toggle removed -->
-                <a href="index.html" class="cta-btn" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">
-                    <i class="fas fa-home"></i> Home
-                </a>
-            </div>
-        </div>
-    </nav>
+    <!-- Top Navigation Removed as per request -->
+    <!-- Brand Link Back to Home -->
+    <a href="index.html"
+        style="position: absolute; top: 1.5rem; left: 1.5rem; z-index: 100; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fas fa-arrow-left" style="color: white; font-size: 1.2rem;"></i>
+        <span style="color: white; font-weight: 600;">Back to Home</span>
+    </a>
 
     <!-- Login Wrapper -->
     <div class="login-wrapper">
@@ -289,13 +234,15 @@
             <!-- Login View -->
             <div id="login-view">
                 <div style="margin-bottom: 2rem;">
-                    <div
-                        style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                        <i class="fas fa-hard-hat" style="font-size: 1.8rem; color: var(--primary-color);"></i>
-                        <h2
-                            style="font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin: 0;">
-                            BuildWith</h2>
-                    </div>
+                    <a href="index.html" style="text-decoration: none;">
+                        <div
+                            style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <i class="fas fa-hard-hat" style="font-size: 1.8rem; color: var(--primary-color);"></i>
+                            <h2
+                                style="font-size: 2rem; font-weight: 700; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin: 0;">
+                                BuildWith</h2>
+                        </div>
+                    </a>
                     <p style="color: var(--text-muted);">Access your project dashboard</p>
                 </div>
 

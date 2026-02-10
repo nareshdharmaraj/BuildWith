@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard - BuildWith</title>
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -23,6 +24,7 @@
             position: relative;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
         canvas {
@@ -212,7 +214,7 @@
             <a href="#" onclick="switchTab('messages')"><i class="fas fa-envelope"></i> Messages</a>
             <a href="#" onclick="switchTab('profile')"><i class="fas fa-user-cog"></i> Profile</a>
             <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--glass-border);">
-                <a href="index.html" style="color: #ef4444; justify-content: center;"><i
+                <a href="index.html" class="nav-link" style="color: #ef4444; justify-content: center;"><i
                         class="fas fa-sign-out-alt"></i> Log Out</a>
             </div>
         </aside>

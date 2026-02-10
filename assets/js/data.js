@@ -2,14 +2,26 @@
 const projectCategories = ['Residential', 'Commercial', 'Industrial', 'Interior'];
 const locations = ['New York, USA', 'London, UK', 'Berlin, Germany', 'Tokyo, Japan', 'Paris, France', 'Dubai, UAE', 'Toronto, Canada', 'Sydney, Australia'];
 const images = [
-    'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=600',
-    'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=600',
-    'https://images.unsplash.com/photo-1553434320-e9f5757140b1?auto=format&fit=crop&q=80&w=600',
-    'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=600',
-    'https://images.unsplash.com/photo-1571896349842-6e5a513e610a?auto=format&fit=crop&q=80&w=600',
-    'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=600',
-    'https://images.unsplash.com/photo-1479839672679-a455b1809a2c?auto=format&fit=crop&q=80&w=600',
-    'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=600'
+    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=600', // Modern House
+    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=600', // Modern Interior
+    'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=600', // Skyscraper bottom view
+    'https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&q=80&w=600', // Black building
+    'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=600', // Concrete architecture
+    'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=600', // Construction
+    'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80&w=600', // Minimalist living room
+    'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=600', // Corporate Office
+    'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=600', // Modern Office
+    'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=600', // Industrial tech
+    'https://images.unsplash.com/photo-1581094794329-cd1096a78432?auto=format&fit=crop&q=80&w=600', // Engineer on site
+    'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=600', // Blueprints
+    'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&q=80&w=600', // Building construction
+    'https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&q=80&w=600', // Luxury Home
+    'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&q=80&w=600', // Tropical House
+    'https://images.unsplash.com/photo-1531835551805-16d864c8d311?auto=format&fit=crop&q=80&w=600', // Stone House
+    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=600', // White Home
+    'https://images.unsplash.com/photo-1460317442991-0ec2aa5ebb79?auto=format&fit=crop&q=80&w=600', // Construction Workers
+    'https://images.unsplash.com/photo-1590332765373-6dc0f8582772?auto=format&fit=crop&q=80&w=600', // Construction Crane
+    'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6184?auto=format&fit=crop&q=80&w=600'  // Bridge/Site
 ];
 
 const projects = [];
@@ -64,7 +76,7 @@ const faqs = [
         question: 'Do you offer consultation services before starting a project?',
         answer: 'Yes, we provide complimentary initial consultations to discuss your vision, requirements, and budget. Our expert team will assess the feasibility and provide professional recommendations to help you make informed decisions.'
     },
-    
+
     // Pricing & Costs
     {
         category: 'Pricing',
@@ -96,7 +108,7 @@ const faqs = [
         question: 'Are there any hidden costs I should be aware of?',
         answer: 'We maintain complete transparency - there are no hidden costs. All potential expenses are outlined in the initial estimate. However, client-initiated changes, unforeseen site conditions, or premium material upgrades may incur additional costs, which are always discussed and approved before proceeding.'
     },
-    
+
     // Technical Details
     {
         category: 'Technical',
@@ -128,7 +140,7 @@ const faqs = [
         question: 'What is your approach to earthquake and disaster-resistant construction?',
         answer: 'In seismic zones, we implement advanced engineering techniques including base isolation, reinforced concrete frameworks, flexible joint systems, and shock-absorbing materials. Our structures are designed to withstand natural disasters while ensuring occupant safety.'
     },
-    
+
     // Support & Warranty
     {
         category: 'Support',

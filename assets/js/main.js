@@ -13,6 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Active Menu Highlight
+    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link'); // Added support for mobile links if class exists
+    
+    navLinks.forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPath || (currentPath === '' && linkHref === 'index.html')) {
+            link.classList.add('active');
+            // Also highlight parent if it's a dropdown item (optional, can be expanded)
+        }
+    });
+
     // Mobile Menu
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');

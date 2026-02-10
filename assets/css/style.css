@@ -1,7 +1,8 @@
 /* Base Styles & Variables */
 :root {
     /* Light Mode (Default) - "Construction Day" */
-    --primary-color: #d97706;
+    --primary-color: #c26d05;
+    /* Deepened Amber for Professional Look */
     /* Darker Amber for good contrast on light */
     --primary-light: #fbbf24;
     --secondary-color: #1e293b;
@@ -53,6 +54,28 @@ body.dark-mode {
 
     --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+
+    /* Dark Mode Text Visibility Fixes */
+    --text-color: #f1f5f9;
+    /* Lighter text for better contrast */
+    --text-muted: #cbd5e1;
+}
+
+body.dark-mode .card,
+body.dark-mode .glass,
+body.dark-mode .nav-menu,
+body.dark-mode .dropdown-menu {
+    color: var(--text-color);
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
+    color: #ffffff;
 }
 
 * {
@@ -291,8 +314,13 @@ body.rtl-mode .flip-rtl {
     transition: width 0.3s;
 }
 
-.nav-link:hover::after {
+.nav-link:hover::after,
+.nav-link.active::after {
     width: 100%;
+}
+
+.nav-link.active {
+    color: var(--primary-color);
 }
 
 /* Dropdown Menu */
@@ -929,7 +957,61 @@ footer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    margin-top: -4rem;
+    gap: 2rem;
+    margin-top: -2rem;
+    /* Reduced overlapping to prevent issues */
+    z-index: 10;
     z-index: 10;
     position: relative;
+}
+
+/* Login Page Specifics */
+.login-body {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=2000');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 2.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+body.dark-mode .login-container {
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-brand {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+}
+
+.login-brand:hover {
+    opacity: 0.9;
+}
+
+/* Admin Chart Fix */
+.chart-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    min-height: 300px;
 }
